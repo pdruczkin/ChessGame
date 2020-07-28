@@ -5,8 +5,6 @@ public class Manager {
     private Board board = new Board();
     private boolean [][] possibleMoves = new boolean[8][8];
 
-
-
     private void setFigures(){
         for (int i = 0; i < 8; i++) {
             board.getSquareBoard()[1][i].setFigure(new Pawn(false,i,1));
@@ -51,11 +49,25 @@ public class Manager {
         System.out.println();
     }
 
+    private void moveFigure( int newX, int newY, int oldX, int oldY) {
+        if (possibleMoves[newY][newX]){
+            board.getSquareBoard()[oldY][oldX].getFigure().setX(newX);
+            board.getSquareBoard()[oldY][oldX].getFigure().setY(newY);
+            board.getSquareBoard()[oldY][oldX].setOccupied(false);
+            board.getSquareBoard()[newY][newX].setOccupied(true);
+            board.getSquareBoard()[newY][newX].setFigure(board.getSquareBoard()[oldY][oldX].getFigure());
+            board.getSquareBoard()[oldY][oldX].setFigure(null);
+            System.out.println();
+        }
+    }
+
     public void run(){
         setFigures();
         setPossibleMoves(3,1);
 
         printPossibleMoves();
+
+        moveFigure(3,2,3,1);
 
 
         board.print();

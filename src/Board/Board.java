@@ -8,6 +8,10 @@ public class Board {
         return squareBoard;
     }
 
+    public void setSquareBoard(Square[][] squareBoard) {
+        this.squareBoard = squareBoard;
+    }
+
     public Board() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
