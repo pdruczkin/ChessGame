@@ -8,6 +8,7 @@ public abstract class Figure {
         this.x = x;
         this.y = y;
         this.type = type;
+        isMoved = false;
     }
 
     public abstract boolean isGoodToGo(Board board, int x, int y);
@@ -44,7 +45,12 @@ public abstract class Figure {
         this.type = type;
     }
 
+    public boolean isMoved() { return isMoved; }
+
+    public void setMoved(boolean moved) { isMoved = moved; }
+
     protected boolean isWhite;
     protected int x,y;
     protected int type;
+    protected boolean isMoved;
 }
