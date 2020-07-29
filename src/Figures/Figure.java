@@ -3,7 +3,7 @@ package Figures;
 import Board.Board;
 
 public abstract class Figure {
-    protected Figure(boolean isWhite, int x, int y, int type) {
+    public Figure(boolean isWhite, int x, int y, int type) {
         this.isWhite = isWhite;
         this.x = x;
         this.y = y;

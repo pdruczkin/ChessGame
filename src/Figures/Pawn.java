@@ -7,14 +7,34 @@ public class Pawn extends Figure{
         super(isWhite, x, y,1);
     }
 
+
     @Override
     public boolean isGoodToGo(Board board, int x, int y) {
-        if(x == this.x ){
-            if(isWhite && y == this.y - 1 && y > 0){
+
+        //move forward
+        if(x == this.x && !board.getSquareBoard()[y][x].isOccupied()){
+            if(this.isWhite && y == this.y - 1 && y >= 0){
                 return true;
             }
-            else if(!isWhite && y == this.y + 1 && y < 8){
+            else if(!this.isWhite && y == this.y + 1 && y < 8){
                 return true;
+            }
+        }
+
+        //attack
+        if(board.getSquareBoard()[y][x].isOccupied()){
+            if(board.getSquareBoard()[y][x].getFigure().isWhite() != this.isWhite){
+
+                if((this.x == x + 1 || this.x == x - 1 )&& x >= 0 && x < 8){
+
+                    if(this.isWhite && y == this.y - 1 && y >= 0){
+
+                        return true;
+                    }
+                    else if(!this.isWhite && y == this.y + 1 && y < 8){
+                        return true;
+                    }
+                }
             }
         }
         return false;
