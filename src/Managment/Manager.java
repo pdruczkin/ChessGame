@@ -1,5 +1,6 @@
 import Board.Board;
 import Figures.*;
+import Player.Player;
 
 import java.util.Scanner;
 
@@ -145,7 +146,7 @@ public class Manager {
         Player performer = new Player();
         performer = player1;
 
-        // zobacz alt + 9, fajna sprawa
+        // zobacz alt + 9, fajna sprawa // +1
 
         while(true){
             do {
