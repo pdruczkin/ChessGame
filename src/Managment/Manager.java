@@ -1,3 +1,5 @@
+package Managment;
+
 import Board.Board;
 import Figures.*;
 import Player.Player;
@@ -7,6 +9,7 @@ import java.util.Scanner;
 public class Manager {
     private Board board = new Board();
     private boolean [][] possibleMoves = new boolean[8][8];
+    private MateFinder mateFinder = new MateFinder();
 
     private void setFigures(){
         //setting Pawns(1)
@@ -58,8 +61,8 @@ public class Manager {
         //setting Kings(6)
         board.getSquareBoard()[0][4].setFigure(new King(false,4,0));
         board.getSquareBoard()[0][4].setOccupied(true);
-        board.getSquareBoard()[7][4].setFigure(new King(true,4,7));
-        board.getSquareBoard()[7][4].setOccupied(true);
+        board.getSquareBoard()[4][4].setFigure(new King(true,4,4));
+        board.getSquareBoard()[4][4].setOccupied(true);
     }
 
     private void clearPossibleMoves(){
@@ -151,11 +154,14 @@ public class Manager {
         while(true){
             do {
                 board.print(true);
+                System.out.println(mateFinder.isMate(board,true) + "  " + mateFinder.isMate(board,false));
             }while(!extortMove(scanner, performer));
 
             if(performer.equals(player1)){ performer = player2; }
             else{ performer = player1; }
 
         }
+        //board.print(true);
+        //System.out.println(matFinder.isMat(board,true) + "  " + matFinder.isMat(board,false));
     }
 }

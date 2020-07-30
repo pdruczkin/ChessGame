@@ -4,7 +4,7 @@ import Board.Board;
 
 public class Bishop extends Figure{
     public Bishop(boolean isWhite, int x, int y) {
-        super(isWhite, x, y, 4);
+        super(isWhite, x, y, (byte) 4);
     }
 
     @Override

@@ -4,7 +4,7 @@ import Board.Board;
 
 public class Rook extends Figure{
     public Rook(boolean isWhite, int x, int y) {
-        super(isWhite, x, y, 2);
+        super(isWhite, x, y, (byte) 2);
     }
 
     @Override

@@ -4,7 +4,7 @@ import Board.Board;
 
 public class Pawn extends Figure{
     public Pawn(boolean isWhite, int x, int y) {
-        super(isWhite, x, y,1);
+        super(isWhite, x, y, (byte) 1);
     }
 
 

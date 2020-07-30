@@ -3,7 +3,7 @@ package Figures;
 import Board.Board;
 
 public abstract class Figure {
-    public Figure(boolean isWhite, int x, int y, int type) {
+    public Figure(boolean isWhite, int x, int y, byte type) {
         this.isWhite = isWhite;
         this.x = x;
         this.y = y;
@@ -17,32 +17,16 @@ public abstract class Figure {
         return isWhite;
     }
 
-    public void setWhite(boolean white) {
-        isWhite = white;
-    }
-
-    public int getX() {
-        return x;
-    }
-
     public void setX(int x) {
         this.x = x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     public void setY(int y) {
         this.y = y;
     }
 
-    public int getType() {
+    public byte getType() {
         return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public boolean isMoved() { return isMoved; }
@@ -51,6 +35,6 @@ public abstract class Figure {
 
     protected boolean isWhite;
     protected int x,y;
-    protected int type;
+    protected byte type;
     protected boolean isMoved;
 }

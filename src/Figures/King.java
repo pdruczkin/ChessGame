@@ -5,7 +5,7 @@ import Board.Board;
 
 public class King extends Figure{
     public King(boolean isWhite, int x, int y) {
-        super(isWhite, x, y,6);
+        super(isWhite, x, y, (byte) 6);
     }
 
     @Override

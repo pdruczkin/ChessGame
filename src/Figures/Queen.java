@@ -1,11 +1,14 @@
 package Figures;
 
 import Board.Board;
+import Figures.Rook;
+import Figures.Bishop;
 
 public class Queen extends Figure {
     public Queen(boolean isWhite, int x, int y) {
-        super(isWhite, x, y, 5);
+        super(isWhite, x, y, (byte) 5);
     }
+
 
     @Override
     public boolean isGoodToGo(Board board, int x, int y) {
