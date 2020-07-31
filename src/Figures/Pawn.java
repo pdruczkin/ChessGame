@@ -3,13 +3,13 @@ package Figures;
 import Board.Board;
 
 public class Pawn extends Figure{
-    public Pawn(boolean isWhite, int x, int y) {
+    public Pawn(boolean isWhite, byte x, byte y) {
         super(isWhite, x, y, (byte) 1);
     }
 
 
     @Override
-    public boolean isGoodToGo(Board board, int x, int y) {
+    public boolean isGoodToGo(Board board, byte x, byte y) {
 
         //move forward
         if(x == this.x && !board.getSquareBoard()[y][x].isOccupied()){
