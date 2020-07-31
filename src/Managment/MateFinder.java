@@ -8,14 +8,6 @@ public class MateFinder {
 
     private byte kingXCords, kingYCords;
 
-    public byte getKingXCords() {
-        return kingXCords;
-    }
-
-    public byte getKingYCords() {
-        return kingYCords;
-    }
-
     private void findKing(Board board, boolean isWhite) {
         //It makes possible to break multiple loops
         bigBreak:
@@ -51,12 +43,28 @@ public class MateFinder {
         return false;
     }
 
+    public boolean fakeMove(Board board, int newX, int newY, int oldX, int oldY, boolean isKingWhite){
+        move.moveFigure(board, newX, newY, oldX, oldY);
+        if(isMate(board, isKingWhite)){
+            move.removeFigure(board, newX, newY, oldX, oldY);
+            return false;
+        }
+        else{
+            move.removeFigure(board, newX, newY, oldX, oldY);
+            return true;
+        }
+    }
+
     public boolean isAbleToCoverKing(Board board, boolean isKingWhite, byte x, byte y){
         if (board.getSquareBoard()[y][x].isOccupied() && board.getSquareBoard()[y][x].getFigure().isWhite() == isKingWhite){ // same colour as king
-            move.setPossibleMove(board, x, y);
             for (byte i = 0; i < 8; i++) {
                 for (byte j = 0; j < 8; j++) {
-                    move.fakeMove(board, j, i, x, y, isKingWhite);
+                    if(board.getSquareBoard()[y][x].getFigure().isGoodToGo(board,j,i));
+                    {
+                        if(fakeMove(board, j, i, x, y, isKingWhite)){
+                            return true;
+                        }
+                    }
                 }
             }
         }
@@ -74,11 +82,10 @@ public class MateFinder {
 
 
     public boolean isCheckMate(Board board, boolean isKingWhite) {
-
-        if(isKingProtectable(board, isKingWhite)); // do dokonczenia
-
-
-        return true;
+        return isMate(board, isKingWhite) && !isKingProtectable(board, isKingWhite);
+    }
+    public boolean isStaleMate(Board board, boolean isKingWhite, boolean areAnyMoves) {
+        return !isMate(board, isKingWhite) && !areAnyMoves;
     }
 }
 

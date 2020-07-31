@@ -1,8 +1,7 @@
 package Figures;
 
 import Board.Board;
-import Figures.Rook;
-import Figures.Bishop;
+
 
 public class Queen extends Figure {
     public Queen(boolean isWhite, byte x, byte y) {

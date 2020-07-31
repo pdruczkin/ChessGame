@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Manager {
     private Board board = new Board();
     private MateFinder mateFinder = new MateFinder();
+    private PossibleMovesFinder possibleMovesFinder = new PossibleMovesFinder();
     private Move move = new Move();
 
     private void setFigures(){
@@ -61,10 +62,32 @@ public class Manager {
         //setting Kings(6)
         board.getSquareBoard()[0][4].setFigure(new King(false,(byte)4,(byte)0));
         board.getSquareBoard()[0][4].setOccupied(true);
-        board.getSquareBoard()[4][4].setFigure(new King(true,(byte)4,(byte)4));
-        board.getSquareBoard()[4][4].setOccupied(true);
+        board.getSquareBoard()[7][4].setFigure(new King(true,(byte)4,(byte)7));
+        board.getSquareBoard()[7][4].setOccupied(true);
     }
+    public boolean extortMove(Board board, Player performer){
 
+        System.out.println(performer.getColourName() + "'s move:");
+        performer.setOldCords();
+
+        if(board.getSquareBoard()[performer.getOldY()][performer.getOldX()].isOccupied()
+                && board.getSquareBoard()[performer.getOldY()][performer.getOldX()].getFigure().isWhite() == performer.isWhite()){
+            possibleMovesFinder.setPossibleMove(board, performer.getOldX(), performer.getOldY());
+            if(!possibleMovesFinder.checkPossibleMoves()){
+                System.out.println("This figure can't move anywhere");
+                return false;
+            }
+            possibleMovesFinder.printPossibleMoves();
+            performer.setNewCords();
+            if(possibleMovesFinder.checkMove(performer.getNewX(), performer.getNewY())){
+                move.moveFigure(board, performer.getNewX(), performer.getNewY(), performer.getOldX(), performer.getOldY());
+                return true;
+            }
+        }
+            System.out.println("You can't move the figure, try again");
+            return false;
+
+    }
 
 
     public void run(Player player1, Player player2){
@@ -72,18 +95,19 @@ public class Manager {
 
         Player performer = new Player();
         performer = player1;
+        boolean check = true;
 
-        while(true){
+        while(!mateFinder.isCheckMate(board,true) || !mateFinder.isCheckMate(board,false)
+                || !mateFinder.isStaleMate(board,true, check) || !mateFinder.isStaleMate(board,false,check)){
+            possibleMovesFinder.FindAnyPossibleMoves(board);
+            check = possibleMovesFinder.getAreAnyPossibleMoves();
             do {
                 board.print(true);
-                System.out.println(mateFinder.isMate(board,true) + "  " + mateFinder.isMate(board,false));
-            }while(!move.extortMove(board, performer));
+            }while(!extortMove(board, performer));
 
             if(performer.equals(player1)){ performer = player2; }
             else{ performer = player1; }
 
         }
-        //board.print(true);
-        //System.out.println(matFinder.isMat(board,true) + "  " + matFinder.isMat(board,false));
     }
 }

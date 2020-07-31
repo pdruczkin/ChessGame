@@ -5,6 +5,8 @@ import Board.Board;
 public abstract class Figure {
     public Figure(boolean isWhite, byte x, byte y, byte type) {
         this.isWhite = isWhite;
+        this.x = x;
+        this.y = y;
         this.type = type;
         isMoved = false;
     }
@@ -25,6 +27,23 @@ public abstract class Figure {
 
     protected boolean isWhite;
     protected byte type;
+
+    public void setX(byte x) {
+        this.x = x;
+    }
+
+    public void setY(byte y) {
+        this.y = y;
+    }
+
+    public byte getX() {
+        return x;
+    }
+
+    public byte getY() {
+        return y;
+    }
+
     protected byte x,y;
     protected boolean isMoved;
 }
