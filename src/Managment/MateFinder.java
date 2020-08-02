@@ -57,9 +57,10 @@ public class MateFinder {
 
     public boolean isAbleToCoverKing(Board board, boolean isKingWhite, byte x, byte y){
         if (board.getSquareBoard()[y][x].isOccupied() && board.getSquareBoard()[y][x].getFigure().isWhite() == isKingWhite){ // same colour as king
+
             for (byte i = 0; i < 8; i++) {
                 for (byte j = 0; j < 8; j++) {
-                    if(board.getSquareBoard()[y][x].getFigure().isGoodToGo(board,j,i));
+                    if(board.getSquareBoard()[y][x].getFigure().isGoodToGo(board,j,i))
                     {
                         if(fakeMove(board, j, i, x, y, isKingWhite)){
                             return true;
@@ -74,6 +75,7 @@ public class MateFinder {
     public boolean isKingProtectable(Board board, boolean isKingWhite){
         for (byte i = 0; i <8; i++) {
             for (byte j = 0; j < 8; j++) {
+                //System.out.println("i: " + i + " j: " + j) ;
                 if(isAbleToCoverKing(board, isKingWhite, j, i)) return true;
             }
         }

@@ -15,14 +15,14 @@ public class PossibleMovesFinder {
         for (byte i = 0; i < 8; i++) {
             for (byte j = 0; j < 8; j++) {
                 possibleMoves[i][j] = board.getSquareBoard()[y][x].getFigure().isGoodToGo(board,j,i)
-                        && !mateFinder.fakeMove(board,j,i,x,y,board.getSquareBoard()[y][x].getFigure().isWhite());
+                        && mateFinder.fakeMove(board,j,i,x,y,board.getSquareBoard()[y][x].getFigure().isWhite());
             }
         }
     }
 
-    public void setPossibleMove(Board board, byte x, byte y){
+    public void setPossibleMove(Board board, byte x, byte y, boolean isWhite){
         clearPossibleMoves();
-        if(board.getSquareBoard()[y][x].isOccupied()){
+        if(board.getSquareBoard()[y][x].isOccupied() && board.getSquareBoard()[y][x].getFigure().isWhite() == isWhite){
             generetePossibleMoves(board, x,y);
         }
     }
@@ -46,11 +46,11 @@ public class PossibleMovesFinder {
         }
     }
 
-    public void FindAnyPossibleMoves(Board board){
+    public void FindAnyPossibleMoves(Board board, boolean isWhite){
         areAnyPossibleMoves = false;
         for (byte i = 0; i < 8; i++) {
             for(byte j = 0; j < 8;j++){
-                setPossibleMove(board,j,i);
+                setPossibleMove(board,j,i,isWhite);
                 if(checkPossibleMoves()) areAnyPossibleMoves = true;
             }
         }

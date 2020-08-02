@@ -10,6 +10,7 @@ public class Move {
     private boolean [][] possibleMoves = new boolean[8][8];
 
     private Figure bufferFigure;
+    private boolean isOldFigureMoved;
 
 
     public boolean[][] getPossibleMoves() {
@@ -18,6 +19,7 @@ public class Move {
 
     public void moveFigure(Board board, int newX, int newY, int oldX, int oldY) {
             bufferFigure = board.getSquareBoard()[newY][newX].getFigure();
+            isOldFigureMoved = board.getSquareBoard()[oldY][oldX].getFigure().isMoved();
             board.getSquareBoard()[oldY][oldX].setOccupied(false);
             board.getSquareBoard()[newY][newX].setOccupied(true);
             board.getSquareBoard()[newY][newX].setFigure(board.getSquareBoard()[oldY][oldX].getFigure());
@@ -32,8 +34,10 @@ public class Move {
         board.getSquareBoard()[oldY][oldX].setFigure(board.getSquareBoard()[newY][newX].getFigure());
         board.getSquareBoard()[oldY][oldX].getFigure().setX((byte)oldX);
         board.getSquareBoard()[oldY][oldX].getFigure().setY((byte)oldY);
+        board.getSquareBoard()[oldY][oldX].getFigure().setMoved(isOldFigureMoved);
         board.getSquareBoard()[oldY][oldX].setOccupied(true);        
         board.getSquareBoard()[newY][newX].setFigure(bufferFigure);
+
         if(bufferFigure != null) board.getSquareBoard()[newY][newX].setOccupied(true);
         else board.getSquareBoard()[newY][newX].setOccupied(false);        
     }

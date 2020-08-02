@@ -72,7 +72,7 @@ public class Manager {
 
         if(board.getSquareBoard()[performer.getOldY()][performer.getOldX()].isOccupied()
                 && board.getSquareBoard()[performer.getOldY()][performer.getOldX()].getFigure().isWhite() == performer.isWhite()){
-            possibleMovesFinder.setPossibleMove(board, performer.getOldX(), performer.getOldY());
+            possibleMovesFinder.setPossibleMove(board, performer.getOldX(), performer.getOldY(),performer.isWhite());
             if(!possibleMovesFinder.checkPossibleMoves()){
                 System.out.println("This figure can't move anywhere");
                 return false;
@@ -97,12 +97,14 @@ public class Manager {
         performer = player1;
         boolean check = true;
 
-        while(!mateFinder.isCheckMate(board,true) || !mateFinder.isCheckMate(board,false)
-                || !mateFinder.isStaleMate(board,true, check) || !mateFinder.isStaleMate(board,false,check)){
-            possibleMovesFinder.FindAnyPossibleMoves(board);
+        while(!mateFinder.isCheckMate(board,performer.isWhite())
+                || !mateFinder.isStaleMate(board,performer.isWhite(),check)){
+            //System.out.println(mateFinder.isMate(board,true) + "  " + mateFinder.isMate(board,false) );
+            possibleMovesFinder.FindAnyPossibleMoves(board,performer.isWhite());
             check = possibleMovesFinder.getAreAnyPossibleMoves();
             do {
                 board.print(true);
+                System.out.println(mateFinder.isMate(board,true) + "  " + mateFinder.isMate(board,false) );
             }while(!extortMove(board, performer));
 
             if(performer.equals(player1)){ performer = player2; }
