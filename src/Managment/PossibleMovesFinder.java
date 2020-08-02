@@ -14,7 +14,7 @@ public class PossibleMovesFinder {
     private void generetePossibleMoves(Board board, byte x, byte y){
         for (byte i = 0; i < 8; i++) {
             for (byte j = 0; j < 8; j++) {
-                possibleMoves[i][j] = board.getSquareBoard()[y][x].getFigure().isGoodToGo(board,j,i)
+                possibleMoves[i][j] = board.getSquareBoard()[y][x].getFigure().isGoodToGo(board,j,i, mateFinder.isMate(board, board.getSquareBoard()[y][x].getFigure().isWhite()))
                         && mateFinder.fakeMove(board,j,i,x,y,board.getSquareBoard()[y][x].getFigure().isWhite());
             }
         }
@@ -67,5 +67,16 @@ public class PossibleMovesFinder {
         }
         return false;
     }
+
+    public void clearJustMovedTwo(Board board){
+        for (int i = 0; i < 8 ; i++) {
+            for (int j = 0; j < 8; j++) {
+                if(board.getSquareBoard()[i][j].isOccupied()){
+                    board.getSquareBoard()[i][j].getFigure().setJustMovedTwo(false);
+                }
+            }
+        }
+    }
+
 
 }

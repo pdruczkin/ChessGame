@@ -11,7 +11,7 @@ public abstract class Figure {
         isMoved = false;
     }
 
-    public abstract boolean isGoodToGo(Board board, byte x, byte y);
+    public abstract boolean isGoodToGo(Board board, byte x, byte y, boolean isKingInCheck);
 
     public boolean isWhite() {
         return isWhite;
@@ -44,6 +44,15 @@ public abstract class Figure {
         return y;
     }
 
+    public boolean hasJustMovedTwo() {
+        return justMovedTwo;
+    }
+
+    public void setJustMovedTwo(boolean justMovedTwo) {
+        this.justMovedTwo = justMovedTwo;
+    }
+
     protected byte x,y;
     protected boolean isMoved;
+    protected boolean justMovedTwo; // for Pawns
 }

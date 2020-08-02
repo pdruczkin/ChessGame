@@ -26,7 +26,7 @@ public class MateFinder {
 
     private boolean isAttackingKing(Board board, byte x, byte y, boolean isKingWhite) {
         if (board.getSquareBoard()[y][x].isOccupied() && board.getSquareBoard()[y][x].getFigure().isWhite() != isKingWhite) { //diffrent colour than occupied King
-            return board.getSquareBoard()[y][x].getFigure().isGoodToGo(board, kingXCords, kingYCords);
+            return board.getSquareBoard()[y][x].getFigure().isGoodToGo(board, kingXCords, kingYCords, false);
         }
         return false;
     }
@@ -44,7 +44,7 @@ public class MateFinder {
     }
 
     public boolean fakeMove(Board board, int newX, int newY, int oldX, int oldY, boolean isKingWhite){
-        move.moveFigure(board, newX, newY, oldX, oldY);
+        move.moveFigure(board, newX, newY, oldX, oldY, false);
         if(isMate(board, isKingWhite)){
             move.removeFigure(board, newX, newY, oldX, oldY);
             return false;
@@ -60,7 +60,7 @@ public class MateFinder {
 
             for (byte i = 0; i < 8; i++) {
                 for (byte j = 0; j < 8; j++) {
-                    if(board.getSquareBoard()[y][x].getFigure().isGoodToGo(board,j,i))
+                    if(board.getSquareBoard()[y][x].getFigure().isGoodToGo(board,j,i, false))
                     {
                         if(fakeMove(board, j, i, x, y, isKingWhite)){
                             return true;

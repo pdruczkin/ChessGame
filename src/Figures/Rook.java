@@ -8,7 +8,7 @@ public class Rook extends Figure{
     }
 
     @Override
-    public boolean isGoodToGo(Board board, byte x, byte y) {
+    public boolean isGoodToGo(Board board, byte x, byte y, boolean b) {
         if(board.getSquareBoard()[y][x].isOccupied() && board.getSquareBoard()[y][x].getFigure().isWhite() == this.isWhite){
             return false;
         }

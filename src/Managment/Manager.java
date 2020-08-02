@@ -4,9 +4,11 @@ import Board.Board;
 import Figures.*;
 import Player.Player;
 
+import javax.management.MBeanAttributeInfo;
+import java.awt.image.BandedSampleModel;
 import java.util.Scanner;
 
-public class Manager {
+public class Manager<answer> {
     private Board board = new Board();
     private MateFinder mateFinder = new MateFinder();
     private PossibleMovesFinder possibleMovesFinder = new PossibleMovesFinder();
@@ -65,6 +67,35 @@ public class Manager {
         board.getSquareBoard()[7][4].setFigure(new King(true,(byte)4,(byte)7));
         board.getSquareBoard()[7][4].setOccupied(true);
     }
+
+    private void presentPromotionOptions(){
+        System.out.println("Promote the pawn to: ");
+        System.out.println("1 -> ROOK");
+        System.out.println("2 -> KNIGHT");
+        System.out.println("3 -> BISHOP");
+        System.out.println("4 -> QUEEN");
+    }
+
+    private void changingFigure(Board board, Player performer, int choice){
+        switch (choice) {
+            case 2 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Rook(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY()));
+            case 3 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Knight(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY()));
+            case 4 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Bishop(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY()));
+            case 5 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Queen(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY()));
+        }
+    }
+
+    private void promotePawn(Board board, Player performer){
+        presentPromotionOptions();
+        Scanner scanner = new Scanner(System.in);
+        int answer;
+        do{
+            answer = scanner.nextInt();
+            changingFigure(board, performer, answer + 1);
+            if(answer < 1 || answer > 4) System.out.println("Enter a valid value");
+        }while(answer < 1 || answer > 4);
+    }
+
     public boolean extortMove(Board board, Player performer){
 
         System.out.println(performer.getColourName() + "'s move:");
@@ -80,36 +111,45 @@ public class Manager {
             possibleMovesFinder.printPossibleMoves();
             performer.setNewCords();
             if(possibleMovesFinder.checkMove(performer.getNewX(), performer.getNewY())){
-                move.moveFigure(board, performer.getNewX(), performer.getNewY(), performer.getOldX(), performer.getOldY());
+                possibleMovesFinder.clearJustMovedTwo(board);
+                move.moveFigure(board, performer.getNewX(), performer.getNewY(), performer.getOldX(), performer.getOldY(), true);
+                if(board.getSquareBoard()[performer.getNewY()][performer.getNewX()].getFigure().getType() == 1){
+                    if((performer.isWhite() && performer.getNewY() == 0) || (!performer.isWhite() && performer.getNewY() == 7)) {
+                        promotePawn(board, performer);
+                    }
+                }
                 return true;
             }
         }
-            System.out.println("You can't move the figure, try again");
-            return false;
-
+        System.out.println("You can't move the figure, try again");
+        return false;
     }
 
+    private void endingMessage(Player performer){
+        System.out.println(performer.getColourName() + " wins!");
+    }
 
     public void run(Player player1, Player player2){
         setFigures();
 
         Player performer = new Player();
-        performer = player1;
+        performer = player2;
         boolean check = true;
 
-        while(!mateFinder.isCheckMate(board,performer.isWhite())
-                || !mateFinder.isStaleMate(board,performer.isWhite(),check)){
-            //System.out.println(mateFinder.isMate(board,true) + "  " + mateFinder.isMate(board,false) );
-            possibleMovesFinder.FindAnyPossibleMoves(board,performer.isWhite());
-            check = possibleMovesFinder.getAreAnyPossibleMoves();
-            do {
-                board.print(true);
-                System.out.println(mateFinder.isMate(board,true) + "  " + mateFinder.isMate(board,false) );
-            }while(!extortMove(board, performer));
+        while(!(mateFinder.isCheckMate(board, !performer.isWhite())
+                && !mateFinder.isStaleMate(board, !performer.isWhite(),check))){
+            // System.out.println(mateFinder.isMate(board,true) + "  " + mateFinder.isMate(board,false) );
 
             if(performer.equals(player1)){ performer = player2; }
             else{ performer = player1; }
 
+            possibleMovesFinder.FindAnyPossibleMoves(board, !performer.isWhite());
+            check = possibleMovesFinder.getAreAnyPossibleMoves();
+            do {
+                board.print(true);
+                // System.out.println(mateFinder.isMate(board,true) + "  " + mateFinder.isMate(board,false) );
+            }while(!extortMove(board, performer));
         }
+        endingMessage(performer);
     }
 }
