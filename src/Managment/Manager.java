@@ -8,7 +8,7 @@ import javax.management.MBeanAttributeInfo;
 import java.awt.image.BandedSampleModel;
 import java.util.Scanner;
 
-public class Manager<answer> {
+public class Manager {
     private Board board = new Board();
     private MateFinder mateFinder = new MateFinder();
     private PossibleMovesFinder possibleMovesFinder = new PossibleMovesFinder();

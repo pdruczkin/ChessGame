@@ -10,7 +10,7 @@ public class Pawn extends Figure{
 
 
     @Override
-    public boolean isGoodToGo(Board board, byte x, byte y, boolean b) {
+    public boolean isGoodToGo(Board board, byte x, byte y) {
 
         //move forward
         if(x == this.x && !board.getSquareBoard()[y][x].isOccupied()){
@@ -34,7 +34,7 @@ public class Pawn extends Figure{
         }
 
         // 'en passant' attack (baguette xD)
-        if(y == 2 || y == 5){
+        if((this.y == 3 || this.y == 4) && (y == 2 || y == 5)){
             if(this.isWhite){
                 if(board.getSquareBoard()[y+1][x].isOccupied() && board.getSquareBoard()[y+1][x].getFigure().hasJustMovedTwo()) return true;
             }

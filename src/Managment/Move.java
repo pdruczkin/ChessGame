@@ -10,7 +10,6 @@ public class Move {
     private Figure bufferFigure;
     private boolean isOldFigureMoved;
 
-
     public boolean[][] getPossibleMoves() {
         return possibleMoves;
     }
@@ -78,8 +77,8 @@ public class Move {
                 else if(newX == 6) moveFigure(board, 5, 7, 7, 7, false);
             }
             else{
-                if(newX == 1) moveFigure(board, 2, 7, 0, 0, false);
-                else if(newX == 6) moveFigure(board, 5, 7, 7, 0, false);
+                if(newX == 1) moveFigure(board, 2, 0, 0, 0, false);
+                else if(newX == 6) moveFigure(board, 5, 0, 7, 0, false);
             }
         }
     }

@@ -11,7 +11,7 @@ public abstract class Figure {
         isMoved = false;
     }
 
-    public abstract boolean isGoodToGo(Board board, byte x, byte y, boolean isKingInCheck);
+    public abstract boolean isGoodToGo(Board board, byte x, byte y);
 
     public boolean isWhite() {
         return isWhite;

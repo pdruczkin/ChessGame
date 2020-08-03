@@ -34,7 +34,7 @@ public class Board {
                     System.out.print(squareBoard[i][j].getFigure().getType());
                 }
                 else{
-                    System.out.print("0");
+                    System.out.print(" ");
                 }
             }
             if(b) System.out.print(" |");

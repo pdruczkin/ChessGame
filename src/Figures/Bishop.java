@@ -8,7 +8,7 @@ public class Bishop extends Figure{
     }
 
     @Override
-    public boolean isGoodToGo(Board board, byte x, byte y, boolean b) {
+    public boolean isGoodToGo(Board board, byte x, byte y) {
         if(board.getSquareBoard()[y][x].isOccupied() && board.getSquareBoard()[y][x].getFigure().isWhite() == this.isWhite){
             return false;
         }
