@@ -4,8 +4,10 @@ package Figures;
 import Board.Board;
 
 public class King extends Figure{
+
     public King(boolean isWhite, byte x, byte y) {
         super(isWhite, x, y, (byte) 6);
+
     }
 
     @Override
@@ -27,24 +29,24 @@ public class King extends Figure{
         else{
             if(this.isWhite){
                 if(y == 7 && x == 1){
-                    if(!board.getSquareBoard()[7][0].getFigure().isMoved()){
+                    if(board.getSquareBoard()[7][0].isOccupied() && !board.getSquareBoard()[7][0].getFigure().isMoved()){
                         return !board.getSquareBoard()[7][1].isOccupied() && !board.getSquareBoard()[7][2].isOccupied() && !board.getSquareBoard()[7][3].isOccupied();
                     }
                 }
                 else if(y == 7 && x == 6){
-                    if(!board.getSquareBoard()[7][7].getFigure().isMoved()){
+                    if(board.getSquareBoard()[7][7].isOccupied() && !board.getSquareBoard()[7][7].getFigure().isMoved()){
                         return !board.getSquareBoard()[7][6].isOccupied() && !board.getSquareBoard()[7][5].isOccupied();
                     }
                 }
             }
             else{
                 if(y == 0 && x == 1){
-                    if(!board.getSquareBoard()[0][0].getFigure().isMoved()){
+                    if(board.getSquareBoard()[0][0].isOccupied() && !board.getSquareBoard()[0][0].getFigure().isMoved()){
                         return !board.getSquareBoard()[0][1].isOccupied() && !board.getSquareBoard()[0][2].isOccupied() && !board.getSquareBoard()[0][3].isOccupied();
                     }
                 }
                 else if(y == 0 && x == 6){
-                    if(!board.getSquareBoard()[0][7].getFigure().isMoved()){
+                    if(board.getSquareBoard()[0][7].isOccupied() && !board.getSquareBoard()[0][7].getFigure().isMoved()){
                         return !board.getSquareBoard()[0][6].isOccupied() && !board.getSquareBoard()[0][5].isOccupied();
                     }
                 }
