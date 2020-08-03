@@ -20,6 +20,8 @@ public class Main extends Application{
         Player player1 = new Player(true, "Player.Player 1");
         Player player2 = new Player(false, "Player.Player 2");
         manager.run(player1, player2);
+        System.out.println(":)");
+
     }
 
 
