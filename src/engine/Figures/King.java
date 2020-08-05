@@ -1,8 +1,8 @@
-package Figures;
+package engine.Figures;
 
 
-import Board.Board;
-import Managment.MateFinder;
+import engine.Board.Board;
+import engine.Managment.MateFinder;
 
 public class King extends Figure{
 

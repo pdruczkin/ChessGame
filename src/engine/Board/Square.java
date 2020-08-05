@@ -1,6 +1,6 @@
-package Board;
+package engine.Board;
 
-import Figures.Figure;
+import engine.Figures.Figure;
 
 public class Square {
     private int x,y;

@@ -1,6 +1,6 @@
-package Managment;
+package engine.Managment;
 
-import Board.Board;
+import engine.Board.Board;
 
 public class MateFinder {
 

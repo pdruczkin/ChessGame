@@ -1,6 +1,6 @@
-package Figures;
+package engine.Figures;
 
-import Board.Board;
+import engine.Board.Board;
 
 public abstract class Figure {
     public Figure(boolean isWhite, byte x, byte y, byte type) {

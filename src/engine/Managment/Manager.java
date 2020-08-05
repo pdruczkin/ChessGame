@@ -1,11 +1,9 @@
-package Managment;
+package engine.Managment;
 
-import Board.Board;
-import Figures.*;
-import Player.Player;
+import engine.Board.Board;
+import engine.Figures.*;
+import engine.Player.Player;
 
-import javax.management.MBeanAttributeInfo;
-import java.awt.image.BandedSampleModel;
 import java.util.Scanner;
 
 public class Manager {

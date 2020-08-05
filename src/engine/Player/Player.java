@@ -1,4 +1,4 @@
-package Player;
+package engine.Player;
 
 import java.util.Scanner;
 

@@ -1,6 +1,6 @@
-package Figures;
+package engine.Figures;
 
-import Board.Board;
+import engine.Board.Board;
 
 public class Bishop extends Figure{
     public Bishop(boolean isWhite, byte x, byte y) {

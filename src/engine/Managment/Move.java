@@ -1,7 +1,7 @@
-package Managment;
+package engine.Managment;
 
-import Board.Board;
-import Figures.Figure;
+import engine.Board.Board;
+import engine.Figures.Figure;
 
 public class Move {
 

@@ -1,6 +1,6 @@
-package Figures;
+package engine.Figures;
 
-import Board.Board;
+import engine.Board.Board;
 
 
 public class Queen extends Figure {
