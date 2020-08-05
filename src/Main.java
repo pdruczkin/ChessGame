@@ -11,12 +11,6 @@ public class Main extends Table{
 
     public static void main(String[] args) {
         launch(args);
-        Manager manager = new Manager();
-        Player player1 = new Player(true, "engine.Player.engine.Player 1");
-        Player player2 = new Player(false, "engine.Player.engine.Player 2");
-        manager.run(player1, player2);
-        System.out.println(":)");
-
     }
 
 
