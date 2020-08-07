@@ -1,11 +1,13 @@
 package engine.Figures;
 
 import engine.Board.Board;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 
 public class Queen extends Figure {
-    public Queen(boolean isWhite, byte x, byte y) {
-        super(isWhite, x, y, (byte) 5);
+    public Queen(boolean isWhite, byte x, byte y, ImageView imageView) {
+        super(isWhite, x, y, (byte) 5,imageView);
     }
 
 

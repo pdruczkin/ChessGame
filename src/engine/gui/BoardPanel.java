@@ -1,4 +1,4 @@
-package gui;
+package engine.gui;
 
 import engine.Figures.*;
 import javafx.scene.Group;
@@ -47,21 +47,4 @@ public class BoardPanel{
             }
         }
     }
-
-    /*private void setFigures(Group root, int cell){
-        ImageView [][] views = new ImageView[4][8];
-        for (int i = 0; i < 8; i++) {
-            views[1][i] = new ImageView(darkPawn);
-            views[1][i].setX(i*cell);
-            views[1][i].setY(cell);
-
-            views[3][i] = new ImageView(whitePawn);
-            views[3][i].setX(i*cell);
-            views[3][i].setY(6 * cell);
-
-            root.getChildren().add(views[1][i]);
-            root.getChildren().add(views[3][i]);
-        }*/
-
-
 }

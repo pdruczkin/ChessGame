@@ -1,10 +1,12 @@
 package engine.Figures;
 
 import engine.Board.Board;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Knight extends Figure {
-    public Knight(boolean isWhite, byte x, byte y) {
-        super(isWhite, x, y, (byte) 3);
+    public Knight(boolean isWhite, byte x, byte y, ImageView imageView) {
+        super(isWhite, x, y, (byte) 3,imageView);
     }
 
     @Override

@@ -1,10 +1,12 @@
 package engine.Figures;
 
 import engine.Board.Board;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Rook extends Figure{
-    public Rook(boolean isWhite, byte x, byte y) {
-        super(isWhite, x, y, (byte) 2);
+    public Rook(boolean isWhite, byte x, byte y, ImageView imageView) {
+        super(isWhite, x, y, (byte) 2, imageView);
     }
 
     @Override

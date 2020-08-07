@@ -1,17 +1,12 @@
-package gui;
-
-import engine.Board.Board;
-import engine.Player.Player;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
+package engine.gui;
 
 import engine.Managment.Manager;
+import engine.Player.Player;
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class Table extends Application {
     private static final int HEIGHT = 800;
@@ -22,13 +17,14 @@ public class Table extends Application {
     public void start(Stage stage) throws Exception {
 
         Group root = new Group();
+
+        Manager manager = new Manager(root,CELL);
         BoardPanel boardPanel = new BoardPanel(root,WIDTH,HEIGHT,CELL);
-        Manager manager = new Manager();
         Player player1 = new Player(true, "engine.Player.engine.Player 1");
         Player player2 = new Player(false, "engine.Player.engine.Player 2");
+        manager.run(player1,player2);
         stage.setTitle("CHESS GAME");
         stage.setScene(boardPanel.getScene());
         stage.show();
-        //manager.run(player1, player2);
     }
 }

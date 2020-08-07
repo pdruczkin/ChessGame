@@ -3,66 +3,104 @@ package engine.Managment;
 import engine.Board.Board;
 import engine.Figures.*;
 import engine.Player.Player;
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class Manager {
+public class Manager{
+    private Group root;
+    private int cell;
+
     private Board board = new Board();
     private MateFinder mateFinder = new MateFinder();
     private PossibleMovesFinder possibleMovesFinder = new PossibleMovesFinder();
     private Move move = new Move();
 
+    private Image whitePawn = new Image("engine/assets/Pionek.png");;
+    private Image darkPawn = new Image("engine/assets/Pionek_cz.png");;
+    private Image whiteRook = new Image("engine/assets/Wieza.png");
+    private Image darkRook = new Image("engine/assets/Wieza_cz.png");
+    private Image whiteBishop = new Image("engine/assets/Goniec.png");
+    private Image darkBishop = new Image("engine/assets/Goniec_cz.png");
+    private Image whiteKnight = new Image("engine/assets/Skoczek.png") ;
+    private Image darkKnight = new Image("engine/assets/Skoczek_cz.png");
+    private Image whiteKing = new Image("engine/assets/Krol.png");
+    private Image darkKing = new Image("engine/assets/Krol_cz.png");
+    private Image whiteQueen = new Image("engine/assets/Hetman.png");
+    private Image darkQueen = new Image("engine/assets/Hetman_cz.png");
+
+    public Manager(Group root,int cell){
+        this.root = root;
+        this.cell = cell;
+
+    }
+
+
     private void setFigures(){
+        ImageView imageView;
+
         //setting Pawns(1)
         for (byte i = 0; i < 8; i++) {
-            board.getSquareBoard()[1][i].setFigure(new Pawn(false,i,(byte)1));
+            imageView = new ImageView(darkPawn);
+            imageView.setY(6*cell);
+            imageView.setX(i*cell);
+            board.getSquareBoard()[1][i].setFigure(new Pawn(false,i,(byte)1,imageView));
             board.getSquareBoard()[1][i].setOccupied(true);
+            root.getChildren().add(board.getSquareBoard()[1][i].getFigure().getImageview());
         }
         for (byte i = 0; i < 8; i++) {
-            board.getSquareBoard()[6][i].setFigure(new Pawn(true,i,(byte)6));
+            imageView = new ImageView(whitePawn);
+            imageView.setY(cell);
+            imageView.setX(i*cell);
+            board.getSquareBoard()[6][i].setFigure(new Pawn(true,i,(byte)6,imageView));
             board.getSquareBoard()[6][i].setOccupied(true);
+            root.getChildren().add(board.getSquareBoard()[6][i].getFigure().getImageview());
         }
 
         //setting Rooks(2)
         for(byte i = 0; i < 8; i = (byte) (i+7)){
-            board.getSquareBoard()[0][i].setFigure(new Rook(false,i,(byte)0));
+            board.getSquareBoard()[0][i].setFigure(new Rook(false,i,(byte)0,new ImageView(darkRook)));
             board.getSquareBoard()[0][i].setOccupied(true);
         }
         for(byte i = 0; i < 8; i = (byte) (i+7)){
-            board.getSquareBoard()[7][i].setFigure(new Rook(true,i,(byte)7));
+            board.getSquareBoard()[7][i].setFigure(new Rook(true,i,(byte)7,new ImageView(whiteRook)));
             board.getSquareBoard()[7][i].setOccupied(true);
         }
 
         //setting Knights(3)
         for(byte i = 1; i < 8; i = (byte) (i+5)){
-            board.getSquareBoard()[0][i].setFigure(new Knight(false,i,(byte)0));
+            board.getSquareBoard()[0][i].setFigure(new Knight(false,i,(byte)0,new ImageView(darkKnight)));
             board.getSquareBoard()[0][i].setOccupied(true);
         }
         for(byte i = 1; i < 8; i = (byte) (i+5)){
-            board.getSquareBoard()[7][i].setFigure(new Knight(true,i,(byte)7));
+            board.getSquareBoard()[7][i].setFigure(new Knight(true,i,(byte)7,new ImageView(whiteKnight)));
             board.getSquareBoard()[7][i].setOccupied(true);
         }
 
         //setting Bishops(4)
         for(byte i = 2; i < 8; i = (byte) (i+3)){
-            board.getSquareBoard()[0][i].setFigure(new Bishop(false,i,(byte)0));
+            board.getSquareBoard()[0][i].setFigure(new Bishop(false,i,(byte)0,new ImageView(darkBishop)));
             board.getSquareBoard()[0][i].setOccupied(true);
         }
         for(byte i = 2; i < 8; i = (byte) (i+3)){
-            board.getSquareBoard()[7][i].setFigure(new Bishop(true,i,(byte)7));
+            board.getSquareBoard()[7][i].setFigure(new Bishop(true,i,(byte)7,new ImageView(whiteBishop)));
             board.getSquareBoard()[7][i].setOccupied(true);
         }
 
         //setting Queens(5)
-        board.getSquareBoard()[0][3].setFigure(new Queen(false,(byte)3,(byte)0));
+        board.getSquareBoard()[0][3].setFigure(new Queen(false,(byte)3,(byte)0,new ImageView(darkQueen)));
         board.getSquareBoard()[0][3].setOccupied(true);
-        board.getSquareBoard()[7][3].setFigure(new Queen(true,(byte)3,(byte)7));
+        board.getSquareBoard()[7][3].setFigure(new Queen(true,(byte)3,(byte)7,new ImageView(whiteQueen)));
         board.getSquareBoard()[7][3].setOccupied(true);
 
         //setting Kings(6)
-        board.getSquareBoard()[0][4].setFigure(new King(false,(byte)4,(byte)0));
+        board.getSquareBoard()[0][4].setFigure(new King(false,(byte)4,(byte)0,new ImageView(darkKing)));
         board.getSquareBoard()[0][4].setOccupied(true);
-        board.getSquareBoard()[7][4].setFigure(new King(true,(byte)4,(byte)7));
+        board.getSquareBoard()[7][4].setFigure(new King(true,(byte)4,(byte)7,new ImageView(whiteKing)));
         board.getSquareBoard()[7][4].setOccupied(true);
     }
 
@@ -76,10 +114,12 @@ public class Manager {
 
     private void changingFigure(Board board, Player performer, int choice){
         switch (choice) {
-            case 2 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Rook(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY()));
-            case 3 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Knight(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY()));
-            case 4 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Bishop(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY()));
-            case 5 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Queen(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY()));
+            //do zmiany
+            case 2 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Rook(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY(),new ImageView(darkPawn)));
+            case 3 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Knight(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY(),new ImageView(darkPawn)));
+            case 4 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Bishop(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY(),new ImageView(darkPawn)));
+            case 5 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Queen(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY(),new ImageView(darkPawn)));
+
         }
     }
 
@@ -130,7 +170,7 @@ public class Manager {
     public void run(Player player1, Player player2){
         setFigures();
 
-        Player performer = new Player();
+        /*Player performer = new Player();
         performer = player2;
         boolean check = true;
 
@@ -149,5 +189,7 @@ public class Manager {
             }while(!extortMove(board, performer));
         }
         endingMessage(performer);
+    */
     }
+
 }

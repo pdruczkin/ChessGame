@@ -3,13 +3,15 @@ package engine.Figures;
 
 import engine.Board.Board;
 import engine.Managment.MateFinder;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class King extends Figure{
 
     MateFinder matefinder = new MateFinder();
 
-    public King(boolean isWhite, byte x, byte y) {
-        super(isWhite, x, y, (byte) 6);
+    public King(boolean isWhite, byte x, byte y, ImageView imageView) {
+        super(isWhite, x, y, (byte) 6,imageView);
     }
 
     @Override

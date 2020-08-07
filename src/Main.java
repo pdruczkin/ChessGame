@@ -1,11 +1,4 @@
-import engine.Managment.Manager;
-import engine.Player.Player;
-import gui.Table;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import engine.gui.Table;
 
 public class Main extends Table{
 

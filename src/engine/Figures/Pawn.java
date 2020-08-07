@@ -1,11 +1,13 @@
 package engine.Figures;
 
 import engine.Board.Board;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Pawn extends Figure{
 
-    public Pawn(boolean isWhite, byte x, byte y) {
-        super(isWhite, x, y, (byte) 1);
+    public Pawn(boolean isWhite, byte x, byte y, ImageView imageView) {
+        super(isWhite, x, y, (byte) 1,imageView);
     }
 
 

@@ -1,13 +1,15 @@
 package engine.Figures;
 
 import engine.Board.Board;
+import javafx.scene.image.ImageView;
 
 public abstract class Figure {
-    public Figure(boolean isWhite, byte x, byte y, byte type) {
+    public Figure(boolean isWhite, byte x, byte y, byte type, ImageView imageView) {
         this.isWhite = isWhite;
         this.x = x;
         this.y = y;
         this.type = type;
+        this.imageView = imageView;
         isMoved = false;
     }
 
@@ -36,6 +38,10 @@ public abstract class Figure {
         this.y = y;
     }
 
+    public ImageView getImageview() {
+        return imageView;
+    }
+
     public byte getX() {
         return x;
     }
@@ -51,7 +57,7 @@ public abstract class Figure {
     public void setJustMovedTwo(boolean justMovedTwo) {
         this.justMovedTwo = justMovedTwo;
     }
-
+    protected ImageView imageView;
     protected byte x,y;
     protected boolean isMoved;
     protected boolean justMovedTwo; // for Pawns
