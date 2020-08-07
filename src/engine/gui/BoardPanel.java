@@ -26,14 +26,14 @@ public class BoardPanel{
     private Scene scene;
     public BoardPanel(Group root,int width,int height,int cell){
         scene = new Scene(root,width,height);
-        setTitles(root,cell);
+        setTiles(root,cell);
     }
 
     public Scene getScene() {
         return scene;
     }
 
-    private void setTitles(Group root, int cell){
+    private void setTiles(Group root, int cell){
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Rectangle rectangle = new Rectangle();

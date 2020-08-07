@@ -3,10 +3,15 @@ package engine.Managment;
 import engine.Board.Board;
 import engine.Figures.*;
 import engine.Player.Player;
+import javafx.event.Event;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
+import javafx.scene.input.MouseEvent;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -41,20 +46,32 @@ public class Manager{
 
 
     private void setFigures(){
+        /* nie dziala :/
+        EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                System.out.println("Hello World");
+                imageView.setY(mouseEvent.getY());
+                imageView.setX(mouseEvent.getX());
+            }
+        };*/
+
         ImageView imageView;
 
         //setting Pawns(1)
         for (byte i = 0; i < 8; i++) {
             imageView = new ImageView(darkPawn);
-            imageView.setY(6*cell);
+            imageView.setY(cell);
             imageView.setX(i*cell);
             board.getSquareBoard()[1][i].setFigure(new Pawn(false,i,(byte)1,imageView));
             board.getSquareBoard()[1][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[1][i].getFigure().getImageview());
+
         }
         for (byte i = 0; i < 8; i++) {
             imageView = new ImageView(whitePawn);
-            imageView.setY(cell);
+            imageView.setY(6*cell);
             imageView.setX(i*cell);
             board.getSquareBoard()[6][i].setFigure(new Pawn(true,i,(byte)6,imageView));
             board.getSquareBoard()[6][i].setOccupied(true);
@@ -63,45 +80,93 @@ public class Manager{
 
         //setting Rooks(2)
         for(byte i = 0; i < 8; i = (byte) (i+7)){
-            board.getSquareBoard()[0][i].setFigure(new Rook(false,i,(byte)0,new ImageView(darkRook)));
+            imageView = new ImageView(darkRook);
+            imageView.setY(0);
+            imageView.setX(i*cell);
+            board.getSquareBoard()[0][i].setFigure(new Rook(false,i,(byte)0,imageView));
             board.getSquareBoard()[0][i].setOccupied(true);
+            root.getChildren().add(board.getSquareBoard()[0][i].getFigure().getImageview());
         }
         for(byte i = 0; i < 8; i = (byte) (i+7)){
-            board.getSquareBoard()[7][i].setFigure(new Rook(true,i,(byte)7,new ImageView(whiteRook)));
+            imageView = new ImageView(whiteRook);
+            imageView.setY(7*cell);
+            imageView.setX(i*cell);
+            board.getSquareBoard()[7][i].setFigure(new Rook(true,i,(byte)7,imageView));
             board.getSquareBoard()[7][i].setOccupied(true);
+            root.getChildren().add(board.getSquareBoard()[7][i].getFigure().getImageview());
         }
 
         //setting Knights(3)
         for(byte i = 1; i < 8; i = (byte) (i+5)){
-            board.getSquareBoard()[0][i].setFigure(new Knight(false,i,(byte)0,new ImageView(darkKnight)));
+            imageView = new ImageView(darkKnight);
+            imageView.setY(0);
+            imageView.setX(i*cell);
+            board.getSquareBoard()[0][i].setFigure(new Knight(false,i,(byte)0,imageView));
             board.getSquareBoard()[0][i].setOccupied(true);
+            root.getChildren().add(board.getSquareBoard()[0][i].getFigure().getImageview());
         }
         for(byte i = 1; i < 8; i = (byte) (i+5)){
-            board.getSquareBoard()[7][i].setFigure(new Knight(true,i,(byte)7,new ImageView(whiteKnight)));
+            imageView = new ImageView(whiteKnight);
+            imageView.setY(7*cell);
+            imageView.setX(i*cell);
+            board.getSquareBoard()[7][i].setFigure(new Knight(true,i,(byte)7,imageView));
             board.getSquareBoard()[7][i].setOccupied(true);
+            root.getChildren().add(board.getSquareBoard()[7][i].getFigure().getImageview());
         }
 
         //setting Bishops(4)
         for(byte i = 2; i < 8; i = (byte) (i+3)){
-            board.getSquareBoard()[0][i].setFigure(new Bishop(false,i,(byte)0,new ImageView(darkBishop)));
+            imageView = new ImageView(darkBishop);
+            imageView.setY(0);
+            imageView.setX(i*cell);
+            board.getSquareBoard()[0][i].setFigure(new Bishop(false,i,(byte)0,imageView));
             board.getSquareBoard()[0][i].setOccupied(true);
+            root.getChildren().add(board.getSquareBoard()[0][i].getFigure().getImageview());
         }
         for(byte i = 2; i < 8; i = (byte) (i+3)){
-            board.getSquareBoard()[7][i].setFigure(new Bishop(true,i,(byte)7,new ImageView(whiteBishop)));
+            imageView = new ImageView(whiteBishop);
+            imageView.setY(7*cell);
+            imageView.setX(i*cell);
+            board.getSquareBoard()[7][i].setFigure(new Bishop(true,i,(byte)7,imageView));
             board.getSquareBoard()[7][i].setOccupied(true);
+            root.getChildren().add(board.getSquareBoard()[7][i].getFigure().getImageview());
         }
 
         //setting Queens(5)
-        board.getSquareBoard()[0][3].setFigure(new Queen(false,(byte)3,(byte)0,new ImageView(darkQueen)));
+        imageView = new ImageView(darkQueen);
+        imageView.setY(0);
+        imageView.setX(3*cell);
+        board.getSquareBoard()[0][3].setFigure(new Queen(false,(byte)3,(byte)0,imageView));
         board.getSquareBoard()[0][3].setOccupied(true);
-        board.getSquareBoard()[7][3].setFigure(new Queen(true,(byte)3,(byte)7,new ImageView(whiteQueen)));
+        root.getChildren().add(board.getSquareBoard()[0][3].getFigure().getImageview());
+        imageView = new ImageView(whiteQueen);
+        imageView.setY(7*cell);
+        imageView.setX(3*cell);
+        board.getSquareBoard()[7][3].setFigure(new Queen(true,(byte)3,(byte)7,imageView));
         board.getSquareBoard()[7][3].setOccupied(true);
+        root.getChildren().add(board.getSquareBoard()[7][3].getFigure().getImageview());
 
         //setting Kings(6)
-        board.getSquareBoard()[0][4].setFigure(new King(false,(byte)4,(byte)0,new ImageView(darkKing)));
+        imageView = new ImageView(darkKing);
+        imageView.setY(0);
+        imageView.setX(4*cell);
+        board.getSquareBoard()[0][4].setFigure(new King(false,(byte)4,(byte)0,imageView));
         board.getSquareBoard()[0][4].setOccupied(true);
-        board.getSquareBoard()[7][4].setFigure(new King(true,(byte)4,(byte)7,new ImageView(whiteKing)));
+        root.getChildren().add(board.getSquareBoard()[0][4].getFigure().getImageview());
+        imageView = new ImageView(whiteKing);
+        imageView.setY(7*cell);
+        imageView.setX(4*cell);
+        board.getSquareBoard()[7][4].setFigure(new King(true,(byte)4,(byte)7,imageView));
         board.getSquareBoard()[7][4].setOccupied(true);
+        root.getChildren().add(board.getSquareBoard()[7][4].getFigure().getImageview());
+
+        /* for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if(board.getSquareBoard()[i][j].isOccupied()){
+                    board.getSquareBoard()[i][j].getFigure().getImageview().addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
+                }
+            }
+        }*/
     }
 
     private void presentPromotionOptions(){
@@ -170,7 +235,7 @@ public class Manager{
     public void run(Player player1, Player player2){
         setFigures();
 
-        /*Player performer = new Player();
+       /* Player performer = new Player();
         performer = player2;
         boolean check = true;
 

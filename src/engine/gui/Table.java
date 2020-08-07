@@ -26,5 +26,7 @@ public class Table extends Application {
         stage.setTitle("CHESS GAME");
         stage.setScene(boardPanel.getScene());
         stage.show();
+
+
     }
 }
