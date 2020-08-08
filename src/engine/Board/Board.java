@@ -1,5 +1,7 @@
 package engine.Board;
 
+import javafx.scene.Group;
+
 public class Board {
 
     private Square [][] squareBoard = new Square[8][8];
@@ -8,16 +10,11 @@ public class Board {
         return squareBoard;
     }
 
-    public void setSquareBoard(Square[][] squareBoard) {
-        this.squareBoard = squareBoard;
-    }
 
-    public Board() {
+    public Board(Group root, int cell) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-
-                squareBoard[i][j] = new Square(j,i);
-
+                squareBoard[i][j] = new Square(j,i,root,cell);
             }
         }
     }

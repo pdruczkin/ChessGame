@@ -3,10 +3,11 @@ package engine.Managment;
 import engine.Board.Board;
 import engine.Figures.*;
 import engine.Player.Player;
-import engine.gui.BoardPanel;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -22,7 +23,7 @@ public class Manager extends Application {
     private static final int CELL = 100;
 
     private Group root = new Group();
-    private Board board = new Board();
+    private Board board = new Board(root,CELL);
     private MateFinder mateFinder = new MateFinder();
     private PossibleMovesFinder possibleMovesFinder = new PossibleMovesFinder();
     private Move move = new Move();
@@ -201,7 +202,7 @@ public class Manager extends Application {
 
 
 
-
+    /*
     public boolean extortMove(Board board, Player performer){
 
         System.out.println(performer.getColourName() + "'s move:");
@@ -229,7 +230,7 @@ public class Manager extends Application {
         }
         System.out.println("You can't move the figure, try again");
         return false;
-    }
+    }*/
 
 
 
@@ -261,26 +262,24 @@ public class Manager extends Application {
         endingMessage(performer);
     */
     }
-    private byte convertPixelsToCells(int pixels){
-        return (byte)(pixels/CELL);
-    }
+
 
     @Override
     public void start(Stage stage) throws Exception {
-        BoardPanel boardPanel = new BoardPanel(root,WIDTH,HEIGHT,CELL);
         Player player1 = new Player(true, "engine.Player.engine.Player 1");
         Player player2 = new Player(false, "engine.Player.engine.Player 2");
+        MouseMovement event = new MouseMovement(board,CELL);
 
+        Scene scene = new Scene(root);
         setFigures();
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, event);
+        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, event);
 
-        boardPanel.getScene().addEventFilter(MouseEvent.MOUSE_PRESSED, new MouseMovement(board,CELL));
 
 
 
         stage.setTitle("CHESS GAME");
-        stage.setScene(boardPanel.getScene());
+        stage.setScene(scene);
         stage.show();
-
-
     }
 }

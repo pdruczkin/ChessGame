@@ -1,11 +1,15 @@
 package engine.Board;
 
 import engine.Figures.Figure;
+import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class Square {
     private int x,y;
     private boolean isOccupied;
     private Figure figure;
+    private Rectangle square;
 
     public int getX() {
         return x;
@@ -39,9 +43,17 @@ public class Square {
         this.figure = figure;
     }
 
-    public Square(int x, int y) {
+    public Square(int x, int y, Group root, int cell) {
         this.x = x;
         this.y = y;
+        Rectangle rectangle = new Rectangle();
+        rectangle.setWidth(cell);
+        rectangle.setHeight(cell);
+        if((x+y)%2 == 0) rectangle.setFill(Color.INDIANRED);
+        else rectangle.setFill(Color.DARKRED);
+        rectangle.setX(x*cell);
+        rectangle.setY(y*cell);
+        root.getChildren().add(rectangle);
         isOccupied = false;
         figure = null;
     }
