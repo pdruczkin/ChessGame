@@ -10,18 +10,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class BoardPanel{
-    /*public static final Image whitePawn = new Image("gui/assets/Pionek.png");
-    public static final Image darkPawn = new Image("gui/assets/Pionek_cz.png");
-    public static final Image whiteRook = new Image("gui/assets/Wieza.png");
-    public static final Image darkRook = new Image("gui/assets/Wieza_cz.png");
-    public static final Image whiteBishop = new Image("gui/assets/Goniec.png");
-    public static final Image darkBishop = new Image("gui/assets/Goniec_cz.png");
-    public static final Image whiteKnight = new Image("gui/assets/Skoczek.png");
-    public static final Image darkKnight = new Image("gui/assets/Skoczek_cz.png");
-    public static final Image whiteKing = new Image("gui/assets/Krol.png");
-    public static final Image darkKing = new Image("gui/assets/Krol_cz.png");
-    public static final Image whiteQueen = new Image("gui/assets/Hetman.png");
-    public static final Image darkQueen = new Image("gui/assets/Hetman_cz.png");*/
 
     private Scene scene;
     public BoardPanel(Group root,int width,int height,int cell){

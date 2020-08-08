@@ -3,23 +3,25 @@ package engine.Managment;
 import engine.Board.Board;
 import engine.Figures.*;
 import engine.Player.Player;
-import javafx.event.Event;
+import engine.gui.BoardPanel;
+import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import javafx.stage.Stage;
+
 import java.util.Scanner;
 
-public class Manager{
-    private Group root;
-    private int cell;
+public class Manager extends Application {
+    private static final int HEIGHT = 800;
+    private static final int WIDTH = 1100;
+    private static final int CELL = 100;
 
+    private Group root = new Group();
     private Board board = new Board();
     private MateFinder mateFinder = new MateFinder();
     private PossibleMovesFinder possibleMovesFinder = new PossibleMovesFinder();
@@ -37,12 +39,6 @@ public class Manager{
     private Image darkKing = new Image("engine/assets/Krol_cz.png");
     private Image whiteQueen = new Image("engine/assets/Hetman.png");
     private Image darkQueen = new Image("engine/assets/Hetman_cz.png");
-
-    public Manager(Group root,int cell){
-        this.root = root;
-        this.cell = cell;
-
-    }
 
 
     private void setFigures(){
@@ -62,8 +58,8 @@ public class Manager{
         //setting Pawns(1)
         for (byte i = 0; i < 8; i++) {
             imageView = new ImageView(darkPawn);
-            imageView.setY(cell);
-            imageView.setX(i*cell);
+            imageView.setY(CELL);
+            imageView.setX(i*CELL);
             board.getSquareBoard()[1][i].setFigure(new Pawn(false,i,(byte)1,imageView));
             board.getSquareBoard()[1][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[1][i].getFigure().getImageview());
@@ -71,8 +67,8 @@ public class Manager{
         }
         for (byte i = 0; i < 8; i++) {
             imageView = new ImageView(whitePawn);
-            imageView.setY(6*cell);
-            imageView.setX(i*cell);
+            imageView.setY(6*CELL);
+            imageView.setX(i*CELL);
             board.getSquareBoard()[6][i].setFigure(new Pawn(true,i,(byte)6,imageView));
             board.getSquareBoard()[6][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[6][i].getFigure().getImageview());
@@ -82,15 +78,15 @@ public class Manager{
         for(byte i = 0; i < 8; i = (byte) (i+7)){
             imageView = new ImageView(darkRook);
             imageView.setY(0);
-            imageView.setX(i*cell);
+            imageView.setX(i*CELL);
             board.getSquareBoard()[0][i].setFigure(new Rook(false,i,(byte)0,imageView));
             board.getSquareBoard()[0][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[0][i].getFigure().getImageview());
         }
         for(byte i = 0; i < 8; i = (byte) (i+7)){
             imageView = new ImageView(whiteRook);
-            imageView.setY(7*cell);
-            imageView.setX(i*cell);
+            imageView.setY(7*CELL);
+            imageView.setX(i*CELL);
             board.getSquareBoard()[7][i].setFigure(new Rook(true,i,(byte)7,imageView));
             board.getSquareBoard()[7][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[7][i].getFigure().getImageview());
@@ -100,15 +96,15 @@ public class Manager{
         for(byte i = 1; i < 8; i = (byte) (i+5)){
             imageView = new ImageView(darkKnight);
             imageView.setY(0);
-            imageView.setX(i*cell);
+            imageView.setX(i*CELL);
             board.getSquareBoard()[0][i].setFigure(new Knight(false,i,(byte)0,imageView));
             board.getSquareBoard()[0][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[0][i].getFigure().getImageview());
         }
         for(byte i = 1; i < 8; i = (byte) (i+5)){
             imageView = new ImageView(whiteKnight);
-            imageView.setY(7*cell);
-            imageView.setX(i*cell);
+            imageView.setY(7*CELL);
+            imageView.setX(i*CELL);
             board.getSquareBoard()[7][i].setFigure(new Knight(true,i,(byte)7,imageView));
             board.getSquareBoard()[7][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[7][i].getFigure().getImageview());
@@ -118,15 +114,15 @@ public class Manager{
         for(byte i = 2; i < 8; i = (byte) (i+3)){
             imageView = new ImageView(darkBishop);
             imageView.setY(0);
-            imageView.setX(i*cell);
+            imageView.setX(i*CELL);
             board.getSquareBoard()[0][i].setFigure(new Bishop(false,i,(byte)0,imageView));
             board.getSquareBoard()[0][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[0][i].getFigure().getImageview());
         }
         for(byte i = 2; i < 8; i = (byte) (i+3)){
             imageView = new ImageView(whiteBishop);
-            imageView.setY(7*cell);
-            imageView.setX(i*cell);
+            imageView.setY(7*CELL);
+            imageView.setX(i*CELL);
             board.getSquareBoard()[7][i].setFigure(new Bishop(true,i,(byte)7,imageView));
             board.getSquareBoard()[7][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[7][i].getFigure().getImageview());
@@ -135,13 +131,13 @@ public class Manager{
         //setting Queens(5)
         imageView = new ImageView(darkQueen);
         imageView.setY(0);
-        imageView.setX(3*cell);
+        imageView.setX(3*CELL);
         board.getSquareBoard()[0][3].setFigure(new Queen(false,(byte)3,(byte)0,imageView));
         board.getSquareBoard()[0][3].setOccupied(true);
         root.getChildren().add(board.getSquareBoard()[0][3].getFigure().getImageview());
         imageView = new ImageView(whiteQueen);
-        imageView.setY(7*cell);
-        imageView.setX(3*cell);
+        imageView.setY(7*CELL);
+        imageView.setX(3*CELL);
         board.getSquareBoard()[7][3].setFigure(new Queen(true,(byte)3,(byte)7,imageView));
         board.getSquareBoard()[7][3].setOccupied(true);
         root.getChildren().add(board.getSquareBoard()[7][3].getFigure().getImageview());
@@ -149,13 +145,13 @@ public class Manager{
         //setting Kings(6)
         imageView = new ImageView(darkKing);
         imageView.setY(0);
-        imageView.setX(4*cell);
+        imageView.setX(4*CELL);
         board.getSquareBoard()[0][4].setFigure(new King(false,(byte)4,(byte)0,imageView));
         board.getSquareBoard()[0][4].setOccupied(true);
         root.getChildren().add(board.getSquareBoard()[0][4].getFigure().getImageview());
         imageView = new ImageView(whiteKing);
-        imageView.setY(7*cell);
-        imageView.setX(4*cell);
+        imageView.setY(7*CELL);
+        imageView.setX(4*CELL);
         board.getSquareBoard()[7][4].setFigure(new King(true,(byte)4,(byte)7,imageView));
         board.getSquareBoard()[7][4].setOccupied(true);
         root.getChildren().add(board.getSquareBoard()[7][4].getFigure().getImageview());
@@ -199,6 +195,13 @@ public class Manager{
         }while(answer < 1 || answer > 4);
     }
 
+
+
+
+
+
+
+
     public boolean extortMove(Board board, Player performer){
 
         System.out.println(performer.getColourName() + "'s move:");
@@ -228,12 +231,14 @@ public class Manager{
         return false;
     }
 
-    private void endingMessage(Player performer){
-        System.out.println(performer.getColourName() + " wins!");
-    }
+
+
+
+
+
+
 
     public void run(Player player1, Player player2){
-        setFigures();
 
        /* Player performer = new Player();
         performer = player2;
@@ -256,5 +261,26 @@ public class Manager{
         endingMessage(performer);
     */
     }
+    private byte convertPixelsToCells(int pixels){
+        return (byte)(pixels/CELL);
+    }
 
+    @Override
+    public void start(Stage stage) throws Exception {
+        BoardPanel boardPanel = new BoardPanel(root,WIDTH,HEIGHT,CELL);
+        Player player1 = new Player(true, "engine.Player.engine.Player 1");
+        Player player2 = new Player(false, "engine.Player.engine.Player 2");
+
+        setFigures();
+
+        boardPanel.getScene().addEventFilter(MouseEvent.MOUSE_PRESSED, new MouseMovement(board,CELL));
+
+
+
+        stage.setTitle("CHESS GAME");
+        stage.setScene(boardPanel.getScene());
+        stage.show();
+
+
+    }
 }
