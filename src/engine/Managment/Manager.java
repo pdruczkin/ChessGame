@@ -10,14 +10,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.Scanner;
 
-public class Manager extends Application {
+public class Manager extends Application implements EventHandler<MouseEvent> {
     private static final int HEIGHT = 800;
     private static final int WIDTH = 1100;
     private static final int CELL = 100;
@@ -27,6 +25,8 @@ public class Manager extends Application {
     private MateFinder mateFinder = new MateFinder();
     private PossibleMovesFinder possibleMovesFinder = new PossibleMovesFinder();
     private Move move = new Move();
+
+
 
     private Image whitePawn = new Image("engine/assets/Pionek.png");;
     private Image darkPawn = new Image("engine/assets/Pionek_cz.png");;
@@ -40,6 +40,10 @@ public class Manager extends Application {
     private Image darkKing = new Image("engine/assets/Krol_cz.png");
     private Image whiteQueen = new Image("engine/assets/Hetman.png");
     private Image darkQueen = new Image("engine/assets/Hetman_cz.png");
+
+    //for mouse movements
+    private Player performer;
+    int clickedCordsX,clickedCordsY;
 
 
     private void setFigures(){
@@ -262,18 +266,46 @@ public class Manager extends Application {
         endingMessage(performer);
     */
     }
+    private byte convertPixelsToCells(int pixels){
+        return (byte)(pixels/CELL);
+    }
 
+    private boolean checkStartingPosition(byte x, byte y, Player performer){
+        if(x < 0 || x > 7 || y < 0 || y > 7) return false;
+        System.out.println("1");
+        if(board.getSquareBoard()[y][x].isOccupied() && board.getSquareBoard()[y][x].getFigure().isWhite() == performer.isWhite()){
+            System.out.println("2");
+            possibleMovesFinder.setPossibleMove(board, x , y ,performer.isWhite());
+            if(!possibleMovesFinder.checkPossibleMoves()){
+                System.out.println("CHUJA SIE TYM RUSZYSZ");
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void moveImage(int x, int y){
+        int clickedX = convertPixelsToCells(clickedCordsX);
+        int clickedY = convertPixelsToCells(clickedCordsY);
+        ImageView tmp = board.getSquareBoard()[clickedY][clickedX].getFigure().getImageview();
+        tmp.setX(x);
+        tmp.setY(y);
+        board.getSquareBoard()[clickedY][clickedX].getFigure().setImageView(tmp);
+
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
         Player player1 = new Player(true, "engine.Player.engine.Player 1");
         Player player2 = new Player(false, "engine.Player.engine.Player 2");
-        MouseMovement event = new MouseMovement(board,CELL);
+        performer = player1;
 
         Scene scene = new Scene(root);
         setFigures();
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, event);
-        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, event);
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, this);
+        scene.addEventFilter(MouseEvent.MOUSE_DRAGGED, this);
+        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, this);
 
 
 
@@ -282,4 +314,29 @@ public class Manager extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
+    @Override
+    public void handle(MouseEvent mouseEvent) {
+        if(mouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED) {
+            clickedCordsX = (int)mouseEvent.getX();
+            clickedCordsY = (int)mouseEvent.getY();
+            System.out.println(checkStartingPosition(convertPixelsToCells(clickedCordsX),convertPixelsToCells(clickedCordsY),performer) + "  " + "PLS DZIALAJ");
+            System.out.println("Wciaskam");
+        }
+        else if(mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED){
+            int x = (int)mouseEvent.getX();
+            int y = (int)mouseEvent.getY();
+            System.out.println("OLDX " + clickedCordsX + " OLDY " + clickedCordsY);
+            System.out.println("X " + x + " Y " + y);
+
+            moveImage(x,y);
+            System.out.println("CIAGNE");
+        }
+        else if(mouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED){
+            System.out.println("Puszczam");
+        }
+    }
+
+
+
 }

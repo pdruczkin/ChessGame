@@ -14,6 +14,8 @@ public class Move {
         return possibleMoves;
     }
 
+
+
     public void moveFigure(Board board, int newX, int newY, int oldX, int oldY, boolean isActuallyMoving) {
             bufferFigure = board.getSquareBoard()[newY][newX].getFigure();
             isOldFigureMoved = board.getSquareBoard()[oldY][oldX].getFigure().isMoved();

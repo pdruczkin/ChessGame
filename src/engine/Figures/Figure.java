@@ -42,6 +42,10 @@ public abstract class Figure {
         return imageView;
     }
 
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
     public byte getX() {
         return x;
     }
