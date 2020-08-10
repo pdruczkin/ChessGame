@@ -2,6 +2,7 @@ package engine.Managment;
 
 import engine.Board.Board;
 import engine.Figures.Figure;
+import javafx.scene.image.ImageView;
 
 public class Move {
 
@@ -14,7 +15,13 @@ public class Move {
         return possibleMoves;
     }
 
-
+    public void moveFigureAndView(Board board, int newX, int newY, int oldX, int oldY, boolean isActuallyMoving, int cell){
+        moveFigure(board,newX,newY,oldX,oldY,isActuallyMoving);
+        ImageView imageView = board.getSquareBoard()[newY][newX].getFigure().getImageview();
+        imageView.setX(newX * cell);
+        imageView.setY(newY * cell);
+        board.getSquareBoard()[newY][newX].getFigure().setImageView(imageView);
+    }
 
     public void moveFigure(Board board, int newX, int newY, int oldX, int oldY, boolean isActuallyMoving) {
             bufferFigure = board.getSquareBoard()[newY][newX].getFigure();

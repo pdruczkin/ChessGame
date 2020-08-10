@@ -44,6 +44,7 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
     //for mouse movements
     private Player performer;
     int clickedCordsX,clickedCordsY;
+    boolean isClickedGood;
 
 
     private void setFigures(){
@@ -272,9 +273,7 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
 
     private boolean checkStartingPosition(byte x, byte y, Player performer){
         if(x < 0 || x > 7 || y < 0 || y > 7) return false;
-        System.out.println("1");
         if(board.getSquareBoard()[y][x].isOccupied() && board.getSquareBoard()[y][x].getFigure().isWhite() == performer.isWhite()){
-            System.out.println("2");
             possibleMovesFinder.setPossibleMove(board, x , y ,performer.isWhite());
             if(!possibleMovesFinder.checkPossibleMoves()){
                 System.out.println("CHUJA SIE TYM RUSZYSZ");
@@ -320,23 +319,53 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
         if(mouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED) {
             clickedCordsX = (int)mouseEvent.getX();
             clickedCordsY = (int)mouseEvent.getY();
-            System.out.println(checkStartingPosition(convertPixelsToCells(clickedCordsX),convertPixelsToCells(clickedCordsY),performer) + "  " + "PLS DZIALAJ");
-            System.out.println("Wciaskam");
+            if(checkStartingPosition(convertPixelsToCells(clickedCordsX),convertPixelsToCells(clickedCordsY),performer)){
+                isClickedGood = true;
+            }
+            else{
+                isClickedGood = false;
+            }
+            possibleMovesFinder.printPossibleMoves();
         }
         else if(mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED){
-            int x = (int)mouseEvent.getX();
-            int y = (int)mouseEvent.getY();
-            System.out.println("OLDX " + clickedCordsX + " OLDY " + clickedCordsY);
-            System.out.println("X " + x + " Y " + y);
-
-            moveImage(x,y);
-            System.out.println("CIAGNE");
+            if(isClickedGood){
+                int x = (int)mouseEvent.getX();
+                int y = (int)mouseEvent.getY();
+                moveImage(x,y);
+            }
+            else{
+                System.out.println("Po chuj ruszasz jak nie mozesz");
+            }
         }
         else if(mouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED){
-            System.out.println("Puszczam");
+            if(isClickedGood){
+                int releasedCordsX = (int) mouseEvent.getX();
+                int releasedCordsY = (int) mouseEvent.getY();
+
+                byte releasedX = convertPixelsToCells(releasedCordsX);
+                byte releasedY = convertPixelsToCells(releasedCordsY);
+
+                boolean isMoveDone = false;
+
+                if(releasedX >= 0 && releasedX < 8 && releasedY >= 0 && releasedY < 8 ) {
+                    if (possibleMovesFinder.checkMove(releasedX, releasedY)) {
+                        possibleMovesFinder.clearJustMovedTwo(board);
+                        move.moveFigureAndView(board, releasedX , releasedY, convertPixelsToCells(clickedCordsX), convertPixelsToCells(clickedCordsY), true, CELL);
+                        isMoveDone = true;
+                        /*if (board.getSquareBoard()[performer.getNewY()][performer.getNewX()].getFigure().getType() == 1) {
+                            if ((performer.isWhite() && performer.getNewY() == 0) || (!performer.isWhite() && performer.getNewY() == 7)) {
+                                promotePawn(board, performer);
+                            }
+                        }*/
+                    }
+                }
+                if(!isMoveDone){
+                        ImageView imageView = board.getSquareBoard()[convertPixelsToCells(clickedCordsY)][convertPixelsToCells(clickedCordsX)].getFigure().getImageview();
+                        imageView.setX(convertPixelsToCells(clickedCordsX) * CELL);
+                        imageView.setY(convertPixelsToCells(clickedCordsY) * CELL);
+                        board.getSquareBoard()[convertPixelsToCells(clickedCordsY)][convertPixelsToCells(clickedCordsX)].getFigure().setImageView(imageView);
+                }
+            }
         }
     }
-
-
-
 }
