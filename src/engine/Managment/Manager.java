@@ -43,21 +43,13 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
 
     //for mouse movements
     private Player performer;
-    int clickedCordsX,clickedCordsY;
-    boolean isClickedGood;
+    private Player player1,player2;
+    private int clickedCordsX,clickedCordsY;
+    private boolean isClickedGood;
 
 
     private void setFigures(){
-        /* nie dziala :/
-        EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
 
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                System.out.println("Hello World");
-                imageView.setY(mouseEvent.getY());
-                imageView.setX(mouseEvent.getX());
-            }
-        };*/
 
         ImageView imageView;
 
@@ -201,49 +193,6 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
         }while(answer < 1 || answer > 4);
     }
 
-
-
-
-
-
-
-    /*
-    public boolean extortMove(Board board, Player performer){
-
-        System.out.println(performer.getColourName() + "'s move:");
-        performer.setOldCords();
-
-        if(board.getSquareBoard()[performer.getOldY()][performer.getOldX()].isOccupied()
-                && board.getSquareBoard()[performer.getOldY()][performer.getOldX()].getFigure().isWhite() == performer.isWhite()){
-            possibleMovesFinder.setPossibleMove(board, performer.getOldX(), performer.getOldY(),performer.isWhite());
-            if(!possibleMovesFinder.checkPossibleMoves()){
-                System.out.println("This figure can't move anywhere");
-                return false;
-            }
-            possibleMovesFinder.printPossibleMoves();
-            performer.setNewCords();
-            if(possibleMovesFinder.checkMove(performer.getNewX(), performer.getNewY())){
-                possibleMovesFinder.clearJustMovedTwo(board);
-                move.moveFigure(board, performer.getNewX(), performer.getNewY(), performer.getOldX(), performer.getOldY(), true);
-                if(board.getSquareBoard()[performer.getNewY()][performer.getNewX()].getFigure().getType() == 1){
-                    if((performer.isWhite() && performer.getNewY() == 0) || (!performer.isWhite() && performer.getNewY() == 7)) {
-                        promotePawn(board, performer);
-                    }
-                }
-                return true;
-            }
-        }
-        System.out.println("You can't move the figure, try again");
-        return false;
-    }*/
-
-
-
-
-
-
-
-
     public void run(Player player1, Player player2){
 
        /* Player performer = new Player();
@@ -293,11 +242,31 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
         board.getSquareBoard()[clickedY][clickedX].getFigure().setImageView(tmp);
 
     }
+    private void changePlayer(){
+        if(performer == player1) performer = player2;
+        else if(performer == player2) performer = player1;
+        else System.out.println("CHUJOWO");
+    }
+
+    private void checkCondtion(){
+        possibleMovesFinder.findAnyPossibleMoves(board,performer.isWhite());
+        boolean areAnyMoves = possibleMovesFinder.getAreAnyPossibleMoves();
+        System.out.println(areAnyMoves);
+        if(mateFinder.isCheckMate(board,performer.isWhite())){
+            System.out.println("CHECKMATE");
+            //System.exit(0);
+        }
+        if(mateFinder.isStaleMate(board,performer.isWhite(),areAnyMoves)){
+            System.out.println("STALEMATE");
+            //System.exit(0);
+        }
+
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
-        Player player1 = new Player(true, "engine.Player.engine.Player 1");
-        Player player2 = new Player(false, "engine.Player.engine.Player 2");
+        player1 = new Player(true, "engine.Player.engine.Player 1");
+        player2 = new Player(false, "engine.Player.engine.Player 2");
         performer = player1;
 
         Scene scene = new Scene(root);
@@ -319,13 +288,16 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
         if(mouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED) {
             clickedCordsX = (int)mouseEvent.getX();
             clickedCordsY = (int)mouseEvent.getY();
-            if(checkStartingPosition(convertPixelsToCells(clickedCordsX),convertPixelsToCells(clickedCordsY),performer)){
+            byte clickedX = convertPixelsToCells(clickedCordsX);
+            byte clickedY = convertPixelsToCells(clickedCordsY);
+
+            if(checkStartingPosition(clickedX,clickedY,performer)){
                 isClickedGood = true;
             }
             else{
                 isClickedGood = false;
             }
-            possibleMovesFinder.printPossibleMoves();
+            possibleMovesFinder.setColorPossibleMoves(board);
         }
         else if(mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED){
             if(isClickedGood){
@@ -339,6 +311,8 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
         }
         else if(mouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED){
             if(isClickedGood){
+                possibleMovesFinder.undoColorPossibleMoves(board);
+
                 int releasedCordsX = (int) mouseEvent.getX();
                 int releasedCordsY = (int) mouseEvent.getY();
 
@@ -350,13 +324,16 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
                 if(releasedX >= 0 && releasedX < 8 && releasedY >= 0 && releasedY < 8 ) {
                     if (possibleMovesFinder.checkMove(releasedX, releasedY)) {
                         possibleMovesFinder.clearJustMovedTwo(board);
-                        move.moveFigureAndView(board, releasedX , releasedY, convertPixelsToCells(clickedCordsX), convertPixelsToCells(clickedCordsY), true, CELL);
+                        move.moveFigureAndView(board, releasedX , releasedY, convertPixelsToCells(clickedCordsX), convertPixelsToCells(clickedCordsY), CELL, root);
                         isMoveDone = true;
                         /*if (board.getSquareBoard()[performer.getNewY()][performer.getNewX()].getFigure().getType() == 1) {
                             if ((performer.isWhite() && performer.getNewY() == 0) || (!performer.isWhite() && performer.getNewY() == 7)) {
                                 promotePawn(board, performer);
                             }
                         }*/
+
+                        changePlayer();
+                        checkCondtion();
                     }
                 }
                 if(!isMoveDone){

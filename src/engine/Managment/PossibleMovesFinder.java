@@ -1,6 +1,10 @@
 package engine.Managment;
 
 import engine.Board.Board;
+import engine.Board.Square;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 
 public class PossibleMovesFinder {
     private boolean [][] possibleMoves = new boolean[8][8];
@@ -38,6 +42,41 @@ public class PossibleMovesFinder {
         System.out.println();
     }
 
+    public void setColorPossibleMoves(Board board){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if(possibleMoves[i][j]){
+                    Rectangle shape = board.getSquareBoard()[i][j].getSquare();
+                    if((i+j)%2 == 0) {
+                        shape.setFill(Color.ANTIQUEWHITE);
+                        board.getSquareBoard()[i][j].setSquare(shape);
+                    }
+                    else{
+                        shape.setFill(Color.BROWN);
+                        board.getSquareBoard()[i][j].setSquare(shape);
+                    }
+                }
+            }
+        }
+    }
+
+    public void undoColorPossibleMoves(Board board){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Rectangle shape = board.getSquareBoard()[i][j].getSquare();
+                if((i+j)%2 == 0){
+                    shape.setFill(Color.MINTCREAM);
+                    board.getSquareBoard()[i][j].setSquare(shape);
+                }
+                else{
+                    shape.setFill(Color.ROSYBROWN);
+                    board.getSquareBoard()[i][j].setSquare(shape);
+                }
+            }
+        }
+
+    }
+
     private void clearPossibleMoves(){
         for (int i = 0; i < 8 ; i++) {
             for (int j = 0; j < 8; j++) {
@@ -46,7 +85,7 @@ public class PossibleMovesFinder {
         }
     }
 
-    public void FindAnyPossibleMoves(Board board, boolean isWhite){
+    public void findAnyPossibleMoves(Board board, boolean isWhite){
         areAnyPossibleMoves = false;
         for (byte i = 0; i < 8; i++) {
             for(byte j = 0; j < 8;j++){

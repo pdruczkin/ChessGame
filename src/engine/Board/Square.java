@@ -43,16 +43,25 @@ public class Square {
         this.figure = figure;
     }
 
+    public Rectangle getSquare() {
+        return square;
+    }
+
+    public void setSquare(Rectangle square) {
+        this.square = square;
+    }
+
     public Square(int x, int y, Group root, int cell) {
         this.x = x;
         this.y = y;
         Rectangle rectangle = new Rectangle();
         rectangle.setWidth(cell);
         rectangle.setHeight(cell);
-        if((x+y)%2 == 0) rectangle.setFill(Color.INDIANRED);
-        else rectangle.setFill(Color.DARKRED);
+        if((x+y)%2 == 0) rectangle.setFill(Color.MINTCREAM);
+        else rectangle.setFill(Color.ROSYBROWN);
         rectangle.setX(x*cell);
         rectangle.setY(y*cell);
+        this.square = rectangle;
         root.getChildren().add(rectangle);
         isOccupied = false;
         figure = null;

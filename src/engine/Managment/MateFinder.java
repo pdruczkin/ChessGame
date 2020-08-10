@@ -55,7 +55,7 @@ public class MateFinder {
     }
 
     public boolean fakeMove(Board board, int newX, int newY, int oldX, int oldY, boolean isKingWhite){
-        move.moveFigure(board, newX, newY, oldX, oldY, false);
+        move.moveFigure(board, newX, newY, oldX, oldY);
         if(isMate(board, isKingWhite, true)){
             move.removeFigure(board, newX, newY, oldX, oldY);
             return false;

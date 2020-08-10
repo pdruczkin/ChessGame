@@ -2,6 +2,7 @@ package engine.Managment;
 
 import engine.Board.Board;
 import engine.Figures.Figure;
+import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 
 public class Move {
@@ -15,21 +16,31 @@ public class Move {
         return possibleMoves;
     }
 
-    public void moveFigureAndView(Board board, int newX, int newY, int oldX, int oldY, boolean isActuallyMoving, int cell){
-        moveFigure(board,newX,newY,oldX,oldY,isActuallyMoving);
+    public void moveFigureAndView(Board board, int newX, int newY, int oldX, int oldY, int cell, Group root){
+
+        extraRook(board, oldX, oldY, newX, newY);
+        extraPawn(board, oldX, oldY, newX, newY);
+
+        if(board.getSquareBoard()[newY][newX].isOccupied()){
+            root.getChildren().remove(board.getSquareBoard()[newY][newX].getFigure().getImageview());
+        }
+        board.getSquareBoard()[oldY][oldX].setOccupied(false);
+        board.getSquareBoard()[newY][newX].setOccupied(true);
+        board.getSquareBoard()[newY][newX].setFigure(board.getSquareBoard()[oldY][oldX].getFigure());
+        board.getSquareBoard()[newY][newX].getFigure().setX((byte)newX);
+        board.getSquareBoard()[newY][newX].getFigure().setY((byte)newY);
+        board.getSquareBoard()[oldY][oldX].setFigure(null);
+        board.getSquareBoard()[newY][newX].getFigure().setMoved(true);
+        hasPawnJustMovedTwo(board, newX, newY, oldY);
         ImageView imageView = board.getSquareBoard()[newY][newX].getFigure().getImageview();
         imageView.setX(newX * cell);
         imageView.setY(newY * cell);
         board.getSquareBoard()[newY][newX].getFigure().setImageView(imageView);
     }
 
-    public void moveFigure(Board board, int newX, int newY, int oldX, int oldY, boolean isActuallyMoving) {
+    public void moveFigure(Board board, int newX, int newY, int oldX, int oldY) {
             bufferFigure = board.getSquareBoard()[newY][newX].getFigure();
             isOldFigureMoved = board.getSquareBoard()[oldY][oldX].getFigure().isMoved();
-            if(isActuallyMoving){
-                extraRook(board, oldX, oldY, newX, newY);
-                extraPawn(board, oldX, oldY, newX, newY);
-            }
             board.getSquareBoard()[oldY][oldX].setOccupied(false);
             board.getSquareBoard()[newY][newX].setOccupied(true);
             board.getSquareBoard()[newY][newX].setFigure(board.getSquareBoard()[oldY][oldX].getFigure());
@@ -37,7 +48,6 @@ public class Move {
             board.getSquareBoard()[newY][newX].getFigure().setY((byte)newY);
             board.getSquareBoard()[oldY][oldX].setFigure(null);
             board.getSquareBoard()[newY][newX].getFigure().setMoved(true);
-            if(isActuallyMoving) hasPawnJustMovedTwo(board, newX, newY, oldY);
     }
     
     public void removeFigure(Board board, int newX, int newY, int oldX, int oldY){
@@ -82,12 +92,12 @@ public class Move {
     private void extraRook(Board board, int oldX, int oldY, int newX, int newY){
         if(isCastling(board, oldX, oldY, newX, newY)){
             if(newY == 7){
-                if(newX == 1) moveFigure(board, 2, 7, 0, 7, false);
-                else if(newX == 6) moveFigure(board, 5, 7, 7, 7, false);
+                if(newX == 1) moveFigure(board, 2, 7, 0, 7);
+                else if(newX == 6) moveFigure(board, 5, 7, 7, 7);
             }
             else{
-                if(newX == 1) moveFigure(board, 2, 0, 0, 0, false);
-                else if(newX == 6) moveFigure(board, 5, 0, 7, 0, false);
+                if(newX == 1) moveFigure(board, 2, 0, 0, 0);
+                else if(newX == 6) moveFigure(board, 5, 0, 7, 0);
             }
         }
     }
