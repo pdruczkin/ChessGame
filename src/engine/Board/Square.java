@@ -4,6 +4,7 @@ import engine.Figures.Figure;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 
 public class Square {
     private int x,y;
@@ -57,8 +58,8 @@ public class Square {
         Rectangle rectangle = new Rectangle();
         rectangle.setWidth(cell);
         rectangle.setHeight(cell);
-        if((x+y)%2 == 0) rectangle.setFill(Color.MINTCREAM);
-        else rectangle.setFill(Color.ROSYBROWN);
+        if((x+y)%2 == 0) rectangle.setFill(Color.STEELBLUE);
+        else rectangle.setFill(Color.PALETURQUOISE);
         rectangle.setX(x*cell);
         rectangle.setY(y*cell);
         this.square = rectangle;

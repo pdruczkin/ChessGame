@@ -48,11 +48,11 @@ public class PossibleMovesFinder {
                 if(possibleMoves[i][j]){
                     Rectangle shape = board.getSquareBoard()[i][j].getSquare();
                     if((i+j)%2 == 0) {
-                        shape.setFill(Color.ANTIQUEWHITE);
+                        shape.setFill(Color.BLUE);
                         board.getSquareBoard()[i][j].setSquare(shape);
                     }
                     else{
-                        shape.setFill(Color.BROWN);
+                        shape.setFill(Color.CYAN);
                         board.getSquareBoard()[i][j].setSquare(shape);
                     }
                 }
@@ -65,11 +65,11 @@ public class PossibleMovesFinder {
             for (int j = 0; j < 8; j++) {
                 Rectangle shape = board.getSquareBoard()[i][j].getSquare();
                 if((i+j)%2 == 0){
-                    shape.setFill(Color.MINTCREAM);
+                    shape.setFill(Color.STEELBLUE);
                     board.getSquareBoard()[i][j].setSquare(shape);
                 }
                 else{
-                    shape.setFill(Color.ROSYBROWN);
+                    shape.setFill(Color.PALETURQUOISE);
                     board.getSquareBoard()[i][j].setSquare(shape);
                 }
             }
