@@ -47,7 +47,6 @@ public class King extends Figure{
                         matefinder.setKingYCords((byte) 7);
                         matefinder.setKingXCords((byte) 5);
                         if(matefinder.isMate(board, this.isWhite, false)){
-                            System.out.println("Czy tutaj jest szach? " + matefinder.isMate(board, this.isWhite, false));
                             return false;
                         }
                         return !board.getSquareBoard()[7][6].isOccupied() && !board.getSquareBoard()[7][5].isOccupied();

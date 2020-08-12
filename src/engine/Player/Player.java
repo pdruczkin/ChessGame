@@ -33,34 +33,6 @@ public class Player {
         else { colourName = "Black"; }
     }
 
-    public void setOldCords(){
-        boolean correctCords;
-        do {
-            System.out.print("Old X: ");
-            oldX = (byte) scanner.nextInt();
-            System.out.print("Old Y: ");
-            oldY = (byte) scanner.nextInt();
-            correctCords = oldX < 0 || oldX >= 8 || oldY < 0 || oldY >=8;
-            if(correctCords){
-                System.out.println("Cords are incorrect, try again! ");
-            }
-
-        }while(correctCords);
-    }
-
-    public void setNewCords(){
-        boolean correctCords;
-        do {
-            System.out.print("New X: ");
-            newX = (byte) scanner.nextInt();
-            System.out.print("New Y: ");
-            newY = (byte) scanner.nextInt();
-            correctCords = newX < 0 || newX >= 8 || newY < 0 || newY >=8;
-            if(correctCords){
-                System.out.println("Cords are incorrect, try again! ");
-            }
-        }while(correctCords);
-    }
 
     public String getColourName() {
         return colourName;
@@ -86,7 +58,4 @@ public class Player {
         this.name = name;
     }
 
-    public Player() {
-
-    }
 }

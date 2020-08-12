@@ -25,10 +25,10 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
     private MateFinder mateFinder = new MateFinder();
     private PossibleMovesFinder possibleMovesFinder = new PossibleMovesFinder();
     private Move move = new Move();
+    private PawnPromote pawnPromote = new PawnPromote(CELL);
 
 
-
-    private Image whitePawn = new Image("engine/assets/Pionek.png");;
+    private final Image whitePawn = new Image("engine/assets/Pionek.png");;
     private Image darkPawn = new Image("engine/assets/Pionek_cz.png");;
     private Image whiteRook = new Image("engine/assets/Wieza.png");
     private Image darkRook = new Image("engine/assets/Wieza_cz.png");
@@ -45,10 +45,14 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
     private Player performer;
     private Player player1,player2;
     private int clickedCordsX,clickedCordsY;
+    private int releasedCordsX, releasedCordsY;
+
     private boolean isClickedGood;
 
+    private boolean isPromoting;
 
-    private void setFigures(){
+
+    private void setFigures() {
 
 
         ImageView imageView;
@@ -57,71 +61,71 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
         for (byte i = 0; i < 8; i++) {
             imageView = new ImageView(darkPawn);
             imageView.setY(CELL);
-            imageView.setX(i*CELL);
-            board.getSquareBoard()[1][i].setFigure(new Pawn(false,i,(byte)1,imageView));
+            imageView.setX(i * CELL);
+            board.getSquareBoard()[1][i].setFigure(new Pawn(false, i, (byte) 1, imageView));
             board.getSquareBoard()[1][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[1][i].getFigure().getImageview());
 
         }
         for (byte i = 0; i < 8; i++) {
             imageView = new ImageView(whitePawn);
-            imageView.setY(6*CELL);
-            imageView.setX(i*CELL);
-            board.getSquareBoard()[6][i].setFigure(new Pawn(true,i,(byte)6,imageView));
+            imageView.setY(6 * CELL);
+            imageView.setX(i * CELL);
+            board.getSquareBoard()[6][i].setFigure(new Pawn(true, i, (byte) 6, imageView));
             board.getSquareBoard()[6][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[6][i].getFigure().getImageview());
         }
 
         //setting Rooks(2)
-        for(byte i = 0; i < 8; i = (byte) (i+7)){
+        for (byte i = 0; i < 8; i = (byte) (i + 7)) {
             imageView = new ImageView(darkRook);
             imageView.setY(0);
-            imageView.setX(i*CELL);
-            board.getSquareBoard()[0][i].setFigure(new Rook(false,i,(byte)0,imageView));
+            imageView.setX(i * CELL);
+            board.getSquareBoard()[0][i].setFigure(new Rook(false, i, (byte) 0, imageView));
             board.getSquareBoard()[0][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[0][i].getFigure().getImageview());
         }
-        for(byte i = 0; i < 8; i = (byte) (i+7)){
+        for (byte i = 0; i < 8; i = (byte) (i + 7)) {
             imageView = new ImageView(whiteRook);
-            imageView.setY(7*CELL);
-            imageView.setX(i*CELL);
-            board.getSquareBoard()[7][i].setFigure(new Rook(true,i,(byte)7,imageView));
+            imageView.setY(7 * CELL);
+            imageView.setX(i * CELL);
+            board.getSquareBoard()[7][i].setFigure(new Rook(true, i, (byte) 7, imageView));
             board.getSquareBoard()[7][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[7][i].getFigure().getImageview());
         }
 
         //setting Knights(3)
-        for(byte i = 1; i < 8; i = (byte) (i+5)){
+        for (byte i = 1; i < 8; i = (byte) (i + 5)) {
             imageView = new ImageView(darkKnight);
             imageView.setY(0);
-            imageView.setX(i*CELL);
-            board.getSquareBoard()[0][i].setFigure(new Knight(false,i,(byte)0,imageView));
+            imageView.setX(i * CELL);
+            board.getSquareBoard()[0][i].setFigure(new Knight(false, i, (byte) 0, imageView));
             board.getSquareBoard()[0][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[0][i].getFigure().getImageview());
         }
-        for(byte i = 1; i < 8; i = (byte) (i+5)){
+        for (byte i = 1; i < 8; i = (byte) (i + 5)) {
             imageView = new ImageView(whiteKnight);
-            imageView.setY(7*CELL);
-            imageView.setX(i*CELL);
-            board.getSquareBoard()[7][i].setFigure(new Knight(true,i,(byte)7,imageView));
+            imageView.setY(7 * CELL);
+            imageView.setX(i * CELL);
+            board.getSquareBoard()[7][i].setFigure(new Knight(true, i, (byte) 7, imageView));
             board.getSquareBoard()[7][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[7][i].getFigure().getImageview());
         }
 
         //setting Bishops(4)
-        for(byte i = 2; i < 8; i = (byte) (i+3)){
+        for (byte i = 2; i < 8; i = (byte) (i + 3)) {
             imageView = new ImageView(darkBishop);
             imageView.setY(0);
-            imageView.setX(i*CELL);
-            board.getSquareBoard()[0][i].setFigure(new Bishop(false,i,(byte)0,imageView));
+            imageView.setX(i * CELL);
+            board.getSquareBoard()[0][i].setFigure(new Bishop(false, i, (byte) 0, imageView));
             board.getSquareBoard()[0][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[0][i].getFigure().getImageview());
         }
-        for(byte i = 2; i < 8; i = (byte) (i+3)){
+        for (byte i = 2; i < 8; i = (byte) (i + 3)) {
             imageView = new ImageView(whiteBishop);
-            imageView.setY(7*CELL);
-            imageView.setX(i*CELL);
-            board.getSquareBoard()[7][i].setFigure(new Bishop(true,i,(byte)7,imageView));
+            imageView.setY(7 * CELL);
+            imageView.setX(i * CELL);
+            board.getSquareBoard()[7][i].setFigure(new Bishop(true, i, (byte) 7, imageView));
             board.getSquareBoard()[7][i].setOccupied(true);
             root.getChildren().add(board.getSquareBoard()[7][i].getFigure().getImageview());
         }
@@ -129,117 +133,38 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
         //setting Queens(5)
         imageView = new ImageView(darkQueen);
         imageView.setY(0);
-        imageView.setX(3*CELL);
-        board.getSquareBoard()[0][3].setFigure(new Queen(false,(byte)3,(byte)0,imageView));
+        imageView.setX(3 * CELL);
+        board.getSquareBoard()[0][3].setFigure(new Queen(false, (byte) 3, (byte) 0, imageView));
         board.getSquareBoard()[0][3].setOccupied(true);
         root.getChildren().add(board.getSquareBoard()[0][3].getFigure().getImageview());
         imageView = new ImageView(whiteQueen);
-        imageView.setY(7*CELL);
-        imageView.setX(3*CELL);
-        board.getSquareBoard()[7][3].setFigure(new Queen(true,(byte)3,(byte)7,imageView));
+        imageView.setY(7 * CELL);
+        imageView.setX(3 * CELL);
+        board.getSquareBoard()[7][3].setFigure(new Queen(true, (byte) 3, (byte) 7, imageView));
         board.getSquareBoard()[7][3].setOccupied(true);
         root.getChildren().add(board.getSquareBoard()[7][3].getFigure().getImageview());
 
         //setting Kings(6)
         imageView = new ImageView(darkKing);
         imageView.setY(0);
-        imageView.setX(4*CELL);
-        board.getSquareBoard()[0][4].setFigure(new King(false,(byte)4,(byte)0,imageView));
+        imageView.setX(4 * CELL);
+        board.getSquareBoard()[0][4].setFigure(new King(false, (byte) 4, (byte) 0, imageView));
         board.getSquareBoard()[0][4].setOccupied(true);
         root.getChildren().add(board.getSquareBoard()[0][4].getFigure().getImageview());
         imageView = new ImageView(whiteKing);
-        imageView.setY(7*CELL);
-        imageView.setX(4*CELL);
-        board.getSquareBoard()[7][4].setFigure(new King(true,(byte)4,(byte)7,imageView));
+        imageView.setY(7 * CELL);
+        imageView.setX(4 * CELL);
+        board.getSquareBoard()[7][4].setFigure(new King(true, (byte) 4, (byte) 7, imageView));
         board.getSquareBoard()[7][4].setOccupied(true);
         root.getChildren().add(board.getSquareBoard()[7][4].getFigure().getImageview());
 
-        /* for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if(board.getSquareBoard()[i][j].isOccupied()){
-                    board.getSquareBoard()[i][j].getFigure().getImageview().addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
-                }
-            }
-        }*/
-    }
-
-    private void presentPromotionOptions(){
-
-        for (int i = 0; i < 4; i++) {
-            Rectangle rectangle = new Rectangle();
-            rectangle.setWidth(4 * CELL);
-            rectangle.setHeight(4 * CELL);
-            rectangle.setFill(Color.WHITE);
-            rectangle.setX(i * 4 * CELL);
-            rectangle.setY(4 * CELL);
-            root.getChildren().add(rectangle);
-        }
 
     }
 
-    private void changingFigure(Board board, byte x, byte y, int choice){
-        //delete old imageView from root
-        root.getChildren().remove(board.getSquareBoard()[y][x].getFigure().getImageview());
-
-
-        //add new imageView to new Figure
-        ImageView imageView = new ImageView();
-        imageView.setY(y*CELL);
-        imageView.setX(x*CELL);
-        root.getChildren().add(imageView);
-        switch (choice) {
-            case 1 -> { //ROOK
-                if(performer.isWhite()){
-                    imageView.setImage(whiteRook);
-                }
-                else{
-                    imageView.setImage(darkRook);
-                }
-                board.getSquareBoard()[y][x].setFigure(new Rook(performer.isWhite(), x, y,imageView));
-            }
-            case 2 -> { //BISHOP
-                if(performer.isWhite()){
-                    imageView.setImage(whiteBishop);
-                }
-                else{
-                    imageView.setImage(darkBishop);
-                }
-                board.getSquareBoard()[y][x].setFigure(new Bishop(performer.isWhite(),x,y,imageView));
-            }
-            case 3 -> { // QUEEN
-                if(performer.isWhite()){
-                    imageView.setImage(whiteBishop);
-                }
-                else{
-                    imageView.setImage(darkBishop);
-                }
-                board.getSquareBoard()[y][x].setFigure(new Queen(performer.isWhite(), x,y ,imageView));
-            }
-            case 4 -> { // Knight
-                if(performer.isWhite()){
-                    imageView.setImage(whiteKnight);
-                }
-                else{
-                    imageView.setImage(darkKnight);
-                }
-                board.getSquareBoard()[y][x].setFigure(new Knight(performer.isWhite(), x,y ,imageView));
-            }
-
-        }
-    }
-
-    private void promotePawn(Board board, byte x, byte y){
-        presentPromotionOptions();
-        int answer = 1;
-        do{
-
-            changingFigure(board, x , y, 1);
-            if(answer < 1 || answer > 4) System.out.println("Enter a valid value");
-        }while(answer < 1 || answer > 4);
-    }
     private byte convertPixelsToCells(int pixels){
         return (byte)(pixels/CELL);
     }
+
 
     private boolean checkStartingPosition(byte x, byte y, Player performer){
         if(x < 0 || x > 7 || y < 0 || y > 7) return false;
@@ -272,7 +197,6 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
     private void checkCondtion(){
         possibleMovesFinder.findAnyPossibleMoves(board,performer.isWhite());
         boolean areAnyMoves = possibleMovesFinder.getAreAnyPossibleMoves();
-        System.out.println(areAnyMoves);
         if(mateFinder.isCheckMate(board,performer.isWhite())){
             System.out.println("CHECKMATE");
             //System.exit(0);
@@ -307,22 +231,33 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent mouseEvent) {
         if(mouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED) {
-            clickedCordsX = (int)mouseEvent.getX();
-            clickedCordsY = (int)mouseEvent.getY();
-            byte clickedX = convertPixelsToCells(clickedCordsX);
-            byte clickedY = convertPixelsToCells(clickedCordsY);
 
-            if(checkStartingPosition(clickedX,clickedY,performer)){
-                isClickedGood = true;
-                possibleMovesFinder.setColorPossibleMoves(board);
-            }
-            else{
-                isClickedGood = false;
+            clickedCordsX = (int) mouseEvent.getX();
+            clickedCordsY = (int) mouseEvent.getY();
+            if(isPromoting){
+                changePlayer();
+                byte clickedX = convertPixelsToCells(clickedCordsX);
+                byte clickedY = convertPixelsToCells(clickedCordsY);
+
+                isPromoting = !pawnPromote.changingFigure(root,board,convertPixelsToCells(releasedCordsX),convertPixelsToCells(releasedCordsY),clickedX,clickedY,performer);
+                System.out.println("IS PROMOTING  " + isPromoting);
+                if(!isPromoting)pawnPromote.undoPresenting(root,performer);
+                changePlayer();
             }
 
+            if(!isPromoting){
+                byte clickedX = convertPixelsToCells(clickedCordsX);
+                byte clickedY = convertPixelsToCells(clickedCordsY);
+                if (checkStartingPosition(clickedX, clickedY, performer)) {
+                    isClickedGood = true;
+                    possibleMovesFinder.setColorPossibleMoves(board);
+                } else {
+                    isClickedGood = false;
+                }
+            }
         }
         else if(mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED){
-            if(isClickedGood){
+            if(isClickedGood && !isPromoting){
                 int x = (int)mouseEvent.getX();
                 int y = (int)mouseEvent.getY();
                 moveImage(x,y);
@@ -332,10 +267,10 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
             }
         }
         else if(mouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED){
-            if(isClickedGood){
+            if(isClickedGood && !isPromoting){
                 possibleMovesFinder.undoColorPossibleMoves(board);
-                int releasedCordsX = (int) mouseEvent.getX();
-                int releasedCordsY = (int) mouseEvent.getY();
+                releasedCordsX = (int) mouseEvent.getX();
+                releasedCordsY = (int) mouseEvent.getY();
 
                 byte releasedX = convertPixelsToCells(releasedCordsX);
                 byte releasedY = convertPixelsToCells(releasedCordsY);
@@ -349,9 +284,8 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
                         isMoveDone = true;
                         if (isMoveDone && board.getSquareBoard()[releasedY][releasedX].getFigure().getType() == 1) {
                             if ((performer.isWhite() && releasedY == 0) || (!performer.isWhite() && releasedY == 7)) {
-
-                                promotePawn(board, releasedX, releasedY);
-
+                                pawnPromote.presentPromotionOptions(root,performer);
+                                isPromoting = true;
                             }
                         }
 

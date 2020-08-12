@@ -20,8 +20,6 @@ public class Pawn extends Figure{
             else if(!this.isWhite && y == this.y + 1 && y < 8){ return true; }
             if(this.isWhite && y == this.y - 2 && !isMoved() && !board.getSquareBoard()[y+1][x].isOccupied()) { return true; }
             else if(!this.isWhite && y == this.y + 2 && !isMoved() && !board.getSquareBoard()[y-1][x].isOccupied()) {
-                System.out.println("TU");
-                System.out.println(board.getSquareBoard()[y+1][x].isOccupied());
                 return true; }
         }
 

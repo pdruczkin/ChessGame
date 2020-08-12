@@ -86,7 +86,6 @@ public class MateFinder {
     public boolean isKingProtectable(Board board, boolean isKingWhite){
         for (byte i = 0; i <8; i++) {
             for (byte j = 0; j < 8; j++) {
-                //System.out.println("i: " + i + " j: " + j) ;
                 if(isAbleToCoverKing(board, isKingWhite, j, i)) return true;
             }
         }

@@ -31,17 +31,6 @@ public class PossibleMovesFinder {
         }
     }
 
-    public void printPossibleMoves(){
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if(possibleMoves[i][j]) System.out.print(1);
-                else System.out.print("0");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
     public void setColorPossibleMoves(Board board){
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
