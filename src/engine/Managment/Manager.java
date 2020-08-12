@@ -11,9 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.util.Scanner;
+import javafx.scene.shape.Rectangle;
 
 public class Manager extends Application implements EventHandler<MouseEvent> {
     private static final int HEIGHT = 800;
@@ -164,57 +164,78 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
     }
 
     private void presentPromotionOptions(){
-        System.out.println("Promote the pawn to: ");
-        System.out.println("1 -> ROOK");
-        System.out.println("2 -> KNIGHT");
-        System.out.println("3 -> BISHOP");
-        System.out.println("4 -> QUEEN");
+
+        for (int i = 0; i < 4; i++) {
+            Rectangle rectangle = new Rectangle();
+            rectangle.setWidth(4 * CELL);
+            rectangle.setHeight(4 * CELL);
+            rectangle.setFill(Color.WHITE);
+            rectangle.setX(i * 4 * CELL);
+            rectangle.setY(4 * CELL);
+            root.getChildren().add(rectangle);
+        }
+
     }
 
-    private void changingFigure(Board board, Player performer, int choice){
+    private void changingFigure(Board board, byte x, byte y, int choice){
+        //delete old imageView from root
+        root.getChildren().remove(board.getSquareBoard()[y][x].getFigure().getImageview());
+
+
+        //add new imageView to new Figure
+        ImageView imageView = new ImageView();
+        imageView.setY(y*CELL);
+        imageView.setX(x*CELL);
+        root.getChildren().add(imageView);
         switch (choice) {
-            //do zmiany
-            case 2 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Rook(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY(),new ImageView(darkPawn)));
-            case 3 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Knight(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY(),new ImageView(darkPawn)));
-            case 4 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Bishop(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY(),new ImageView(darkPawn)));
-            case 5 -> board.getSquareBoard()[performer.getNewY()][performer.getNewX()].setFigure(new Queen(performer.isWhite(), (byte) performer.getNewX(), (byte) performer.getNewY(),new ImageView(darkPawn)));
+            case 1 -> { //ROOK
+                if(performer.isWhite()){
+                    imageView.setImage(whiteRook);
+                }
+                else{
+                    imageView.setImage(darkRook);
+                }
+                board.getSquareBoard()[y][x].setFigure(new Rook(performer.isWhite(), x, y,imageView));
+            }
+            case 2 -> { //BISHOP
+                if(performer.isWhite()){
+                    imageView.setImage(whiteBishop);
+                }
+                else{
+                    imageView.setImage(darkBishop);
+                }
+                board.getSquareBoard()[y][x].setFigure(new Bishop(performer.isWhite(),x,y,imageView));
+            }
+            case 3 -> { // QUEEN
+                if(performer.isWhite()){
+                    imageView.setImage(whiteBishop);
+                }
+                else{
+                    imageView.setImage(darkBishop);
+                }
+                board.getSquareBoard()[y][x].setFigure(new Queen(performer.isWhite(), x,y ,imageView));
+            }
+            case 4 -> { // Knight
+                if(performer.isWhite()){
+                    imageView.setImage(whiteKnight);
+                }
+                else{
+                    imageView.setImage(darkKnight);
+                }
+                board.getSquareBoard()[y][x].setFigure(new Knight(performer.isWhite(), x,y ,imageView));
+            }
 
         }
     }
 
-    private void promotePawn(Board board, Player performer){
+    private void promotePawn(Board board, byte x, byte y){
         presentPromotionOptions();
-        Scanner scanner = new Scanner(System.in);
-        int answer;
+        int answer = 1;
         do{
-            answer = scanner.nextInt();
-            changingFigure(board, performer, answer + 1);
+
+            changingFigure(board, x , y, 1);
             if(answer < 1 || answer > 4) System.out.println("Enter a valid value");
         }while(answer < 1 || answer > 4);
-    }
-
-    public void run(Player player1, Player player2){
-
-       /* Player performer = new Player();
-        performer = player2;
-        boolean check = true;
-
-        while(!(mateFinder.isCheckMate(board, !performer.isWhite())
-                && !mateFinder.isStaleMate(board, !performer.isWhite(),check))){
-            // System.out.println(mateFinder.isMate(board,true) + "  " + mateFinder.isMate(board,false) );
-
-            if(performer.equals(player1)){ performer = player2; }
-            else{ performer = player1; }
-
-            possibleMovesFinder.FindAnyPossibleMoves(board, !performer.isWhite());
-            check = possibleMovesFinder.getAreAnyPossibleMoves();
-            do {
-                board.print(true);
-                // System.out.println(mateFinder.isMate(board,true) + "  " + mateFinder.isMate(board,false) );
-            }while(!extortMove(board, performer));
-        }
-        endingMessage(performer);
-    */
     }
     private byte convertPixelsToCells(int pixels){
         return (byte)(pixels/CELL);
@@ -237,8 +258,8 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
         int clickedX = convertPixelsToCells(clickedCordsX);
         int clickedY = convertPixelsToCells(clickedCordsY);
         ImageView tmp = board.getSquareBoard()[clickedY][clickedX].getFigure().getImageview();
-        tmp.setX(x);
-        tmp.setY(y);
+        tmp.setX(x-CELL/2.5);
+        tmp.setY(y-CELL/2.5);
         board.getSquareBoard()[clickedY][clickedX].getFigure().setImageView(tmp);
 
     }
@@ -293,11 +314,12 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
 
             if(checkStartingPosition(clickedX,clickedY,performer)){
                 isClickedGood = true;
+                possibleMovesFinder.setColorPossibleMoves(board);
             }
             else{
                 isClickedGood = false;
             }
-            possibleMovesFinder.setColorPossibleMoves(board);
+
         }
         else if(mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED){
             if(isClickedGood){
@@ -312,7 +334,6 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
         else if(mouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED){
             if(isClickedGood){
                 possibleMovesFinder.undoColorPossibleMoves(board);
-
                 int releasedCordsX = (int) mouseEvent.getX();
                 int releasedCordsY = (int) mouseEvent.getY();
 
@@ -326,11 +347,13 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
                         possibleMovesFinder.clearJustMovedTwo(board);
                         move.moveFigureAndView(board, releasedX , releasedY, convertPixelsToCells(clickedCordsX), convertPixelsToCells(clickedCordsY), CELL, root);
                         isMoveDone = true;
-                        /*if (board.getSquareBoard()[performer.getNewY()][performer.getNewX()].getFigure().getType() == 1) {
-                            if ((performer.isWhite() && performer.getNewY() == 0) || (!performer.isWhite() && performer.getNewY() == 7)) {
-                                promotePawn(board, performer);
+                        if (isMoveDone && board.getSquareBoard()[releasedY][releasedX].getFigure().getType() == 1) {
+                            if ((performer.isWhite() && releasedY == 0) || (!performer.isWhite() && releasedY == 7)) {
+
+                                promotePawn(board, releasedX, releasedY);
+
                             }
-                        }*/
+                        }
 
                         changePlayer();
                         checkCondtion();
