@@ -1,7 +1,6 @@
 package engine.Figures;
 
 import engine.Board.Board;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Bishop extends Figure{
@@ -11,19 +10,16 @@ public class Bishop extends Figure{
 
     @Override
     public boolean isGoodToGo(Board board, byte x, byte y) {
-        if(board.getSquareBoard()[y][x].isOccupied() && board.getSquareBoard()[y][x].getFigure().isWhite() == this.isWhite){
-            return false;
-        }
-        else{
+        if (!board.getSquareBoard()[y][x].isOccupied() || board.getSquareBoard()[y][x].getFigure().isWhite() != this.isWhite) {
             //check if it's a bishop move
-            if(Math.abs(this.x - x) == Math.abs(this.y - y)){
+            if (Math.abs(this.x - x) == Math.abs(this.y - y)) {
                 int iterator = 1;
 
                 //right up
-                if(this.x - x < 0 &&  this.y - y > 0){
-                    while(this.x + iterator != x){
+                if (this.x - x < 0 && this.y - y > 0) {
+                    while (this.x + iterator != x) {
                         //check if there is a piece blocking way
-                        if(board.getSquareBoard()[this.y - iterator][this.x + iterator].isOccupied()){
+                        if (board.getSquareBoard()[this.y - iterator][this.x + iterator].isOccupied()) {
                             return false;
                         }
                         iterator++;
@@ -32,10 +28,10 @@ public class Bishop extends Figure{
                 }
 
                 //right down
-                if(this.x - x < 0 &&  this.y - y < 0){
-                    while(this.x + iterator != x){
+                if (this.x - x < 0 && this.y - y < 0) {
+                    while (this.x + iterator != x) {
                         //check if there is a piece blocking way
-                        if(board.getSquareBoard()[this.y + iterator][this.x + iterator].isOccupied()){
+                        if (board.getSquareBoard()[this.y + iterator][this.x + iterator].isOccupied()) {
                             return false;
                         }
                         iterator++;
@@ -44,10 +40,10 @@ public class Bishop extends Figure{
                 }
 
                 //left down
-                if(this.x - x > 0 &&  this.y - y < 0){
-                    while(this.x - iterator != x){
+                if (this.x - x > 0 && this.y - y < 0) {
+                    while (this.x - iterator != x) {
                         //check if there is a piece blocking way
-                        if(board.getSquareBoard()[this.y + iterator][this.x - iterator].isOccupied()){
+                        if (board.getSquareBoard()[this.y + iterator][this.x - iterator].isOccupied()) {
                             return false;
                         }
                         iterator++;
@@ -56,10 +52,10 @@ public class Bishop extends Figure{
                 }
 
                 //left up
-                if(this.x - x > 0 &&  this.y - y > 0){
-                    while(this.x - iterator != x){
+                if (this.x - x > 0 && this.y - y > 0) {
+                    while (this.x - iterator != x) {
                         //check if there is a piece blocking way
-                        if(board.getSquareBoard()[this.y - iterator][this.x - iterator].isOccupied()){
+                        if (board.getSquareBoard()[this.y - iterator][this.x - iterator].isOccupied()) {
                             return false;
                         }
                         iterator++;
@@ -67,7 +63,7 @@ public class Bishop extends Figure{
                     return true;
                 }
             }
-            return false;
         }
+        return false;
     }
 }

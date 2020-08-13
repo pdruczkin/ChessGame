@@ -11,35 +11,31 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.shape.Rectangle;
 
 public class Manager extends Application implements EventHandler<MouseEvent> {
-    private static final int HEIGHT = 800;
-    private static final int WIDTH = 1100;
     private static final int CELL = 100;
 
-    private Group root = new Group();
-    private Board board = new Board(root,CELL);
-    private MateFinder mateFinder = new MateFinder();
-    private PossibleMovesFinder possibleMovesFinder = new PossibleMovesFinder();
-    private Move move = new Move();
-    private PawnPromote pawnPromote = new PawnPromote(CELL);
+    private final Group root = new Group();
+    private final Board board = new Board(root,CELL);
+    private final MateFinder mateFinder = new MateFinder();
+    private final PossibleMovesFinder possibleMovesFinder = new PossibleMovesFinder();
+    private final Move move = new Move();
+    private final PawnPromote pawnPromote = new PawnPromote(CELL);
 
 
-    private final Image whitePawn = new Image("engine/assets/Pionek.png");;
-    private Image darkPawn = new Image("engine/assets/Pionek_cz.png");;
-    private Image whiteRook = new Image("engine/assets/Wieza.png");
-    private Image darkRook = new Image("engine/assets/Wieza_cz.png");
-    private Image whiteBishop = new Image("engine/assets/Goniec.png");
-    private Image darkBishop = new Image("engine/assets/Goniec_cz.png");
-    private Image whiteKnight = new Image("engine/assets/Skoczek.png") ;
-    private Image darkKnight = new Image("engine/assets/Skoczek_cz.png");
-    private Image whiteKing = new Image("engine/assets/Krol.png");
-    private Image darkKing = new Image("engine/assets/Krol_cz.png");
-    private Image whiteQueen = new Image("engine/assets/Hetman.png");
-    private Image darkQueen = new Image("engine/assets/Hetman_cz.png");
+    private final Image whitePawn = new Image("engine/assets/Pionek.png");
+    private final Image darkPawn = new Image("engine/assets/Pionek_cz.png");
+    private final Image whiteRook = new Image("engine/assets/Wieza.png");
+    private final Image darkRook = new Image("engine/assets/Wieza_cz.png");
+    private final Image whiteBishop = new Image("engine/assets/Goniec.png");
+    private final Image darkBishop = new Image("engine/assets/Goniec_cz.png");
+    private final Image whiteKnight = new Image("engine/assets/Skoczek.png") ;
+    private final Image darkKnight = new Image("engine/assets/Skoczek_cz.png");
+    private final Image whiteKing = new Image("engine/assets/Krol.png");
+    private final Image darkKing = new Image("engine/assets/Krol_cz.png");
+    private final Image whiteQueen = new Image("engine/assets/Hetman.png");
+    private final Image darkQueen = new Image("engine/assets/Hetman_cz.png");
 
     //for mouse movements
     private Player performer;
@@ -171,7 +167,7 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
         if(board.getSquareBoard()[y][x].isOccupied() && board.getSquareBoard()[y][x].getFigure().isWhite() == performer.isWhite()){
             possibleMovesFinder.setPossibleMove(board, x , y ,performer.isWhite());
             if(!possibleMovesFinder.checkPossibleMoves()){
-                System.out.println("CHUJA SIE TYM RUSZYSZ");
+                System.out.println("You can't move it!");
                 return false;
             }
             return true;
@@ -191,7 +187,6 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
     private void changePlayer(){
         if(performer == player1) performer = player2;
         else if(performer == player2) performer = player1;
-        else System.out.println("CHUJOWO");
     }
 
     private void checkCondtion(){
@@ -209,7 +204,7 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         player1 = new Player(true, "engine.Player.engine.Player 1");
         player2 = new Player(false, "engine.Player.engine.Player 2");
         performer = player1;
@@ -219,9 +214,6 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, this);
         scene.addEventFilter(MouseEvent.MOUSE_DRAGGED, this);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, this);
-
-
-
 
         stage.setTitle("CHESS GAME");
         stage.setScene(scene);
@@ -263,7 +255,7 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
                 moveImage(x,y);
             }
             else{
-                System.out.println("Po chuj ruszasz jak nie mozesz");
+                System.out.println("Ypu can't move it");
             }
         }
         else if(mouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED){
@@ -282,7 +274,7 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
                         possibleMovesFinder.clearJustMovedTwo(board);
                         move.moveFigureAndView(board, releasedX , releasedY, convertPixelsToCells(clickedCordsX), convertPixelsToCells(clickedCordsY), CELL, root);
                         isMoveDone = true;
-                        if (isMoveDone && board.getSquareBoard()[releasedY][releasedX].getFigure().getType() == 1) {
+                        if (board.getSquareBoard()[releasedY][releasedX].getFigure().getType() == 1) {
                             if ((performer.isWhite() && releasedY == 0) || (!performer.isWhite() && releasedY == 7)) {
                                 pawnPromote.presentPromotionOptions(root,performer);
                                 isPromoting = true;
@@ -294,10 +286,10 @@ public class Manager extends Application implements EventHandler<MouseEvent> {
                     }
                 }
                 if(!isMoveDone){
-                        ImageView imageView = board.getSquareBoard()[convertPixelsToCells(clickedCordsY)][convertPixelsToCells(clickedCordsX)].getFigure().getImageview();
-                        imageView.setX(convertPixelsToCells(clickedCordsX) * CELL);
-                        imageView.setY(convertPixelsToCells(clickedCordsY) * CELL);
-                        board.getSquareBoard()[convertPixelsToCells(clickedCordsY)][convertPixelsToCells(clickedCordsX)].getFigure().setImageView(imageView);
+                    ImageView imageView = board.getSquareBoard()[convertPixelsToCells(clickedCordsY)][convertPixelsToCells(clickedCordsX)].getFigure().getImageview();
+                    imageView.setX(convertPixelsToCells(clickedCordsX) * CELL);
+                    imageView.setY(convertPixelsToCells(clickedCordsY) * CELL);
+                    board.getSquareBoard()[convertPixelsToCells(clickedCordsY)][convertPixelsToCells(clickedCordsX)].getFigure().setImageView(imageView);
                 }
             }
         }

@@ -1,7 +1,6 @@
 package engine.Figures;
 
 import engine.Board.Board;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Knight extends Figure {
@@ -15,9 +14,7 @@ public class Knight extends Figure {
             if(Math.abs(y - this.y) == 2 && Math.abs(x - this.x) == 1){
                 return true;
             }
-            if(Math.abs(x - this.x) == 2 && Math.abs(y - this.y) == 1){
-                return true;
-            }
+            return Math.abs(x - this.x) == 2 && Math.abs(y - this.y) == 1;
         }
         return false;
     }

@@ -1,10 +1,11 @@
 package engine.Managment;
 
 import engine.Board.Board;
+import engine.Figures.King;
 
 public class MateFinder {
 
-    private Move move = new Move();
+    private final Move move = new Move();
 
     private byte kingXCords, kingYCords;
 
@@ -37,7 +38,11 @@ public class MateFinder {
             if(board.getSquareBoard()[y][x].getFigure().getType() != 6){
                 return board.getSquareBoard()[y][x].getFigure().isGoodToGo(board, kingXCords, kingYCords);
             }
+            else{
+                King tmpKing = (King) board.getSquareBoard()[y][x].getFigure();
 
+                return tmpKing.isGoodToGoNoCastlingCheck(board, kingXCords, kingYCords);
+            }
         }
         return false;
     }
@@ -92,13 +97,21 @@ public class MateFinder {
         return false;
     }
 
+    private boolean isThereOnlyKing(Board board, boolean isKingWhite){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if(board.getSquareBoard()[i][j].isOccupied() && board.getSquareBoard()[i][j].getFigure().isWhite() == isKingWhite
+                        && board.getSquareBoard()[i][j].getFigure().getType() != 6) return false;
+            }
+        }
+        return true;
+    }
 
     public boolean isCheckMate(Board board, boolean isKingWhite) {
         return isMate(board, isKingWhite, true) && !isKingProtectable(board, isKingWhite);
     }
     public boolean isStaleMate(Board board, boolean isKingWhite, boolean areAnyMoves) {
+        if(isThereOnlyKing(board, isKingWhite) && isThereOnlyKing(board, !isKingWhite)) return true;
         return !isMate(board, isKingWhite, true) && !areAnyMoves;
     }
 }
-
-

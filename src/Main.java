@@ -5,6 +5,4 @@ public class Main extends Manager {
     public static void main(String[] args) {
         launch(args);
     }
-
-
 }

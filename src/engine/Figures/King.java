@@ -3,7 +3,6 @@ package engine.Figures;
 
 import engine.Board.Board;
 import engine.Managment.MateFinder;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class King extends Figure{
@@ -16,17 +15,22 @@ public class King extends Figure{
 
     @Override
     public boolean isGoodToGo(Board board, byte x, byte y) {
-        if (!matefinder.isMate(board, this.isWhite, true) && isCastlingAvailable(board, x, y))
+        if (!isMoved && !matefinder.isMate(board, this.isWhite, true) && isCastlingAvailable(board, x, y))
             return true;
 
+        return isGoodToGoNoCastlingCheck(board, x, y);
+
+    }
+
+    public boolean isGoodToGoNoCastlingCheck(Board board, byte x, byte y){
         if(board.getSquareBoard()[y][x].isOccupied() && board.getSquareBoard()[y][x].getFigure().isWhite() == this.isWhite){
             return false;
         }
         else{
             return Math.abs(this.x - x) <= 1 && Math.abs(this.y - y) <= 1;
         }
-
     }
+
 
     private boolean isCastlingAvailable(Board board, byte x, byte y){
         if(isMoved) return false;

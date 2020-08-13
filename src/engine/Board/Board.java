@@ -4,9 +4,9 @@ import javafx.scene.Group;
 
 public class Board {
 
-    private Square [][] squareBoard = new Square[8][8];
+    private final Square [][] squareBoard = new Square[8][8];
 
-    public Square[][] getSquareBoard() {
+    public final Square[][] getSquareBoard() {
         return squareBoard;
     }
 

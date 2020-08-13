@@ -25,15 +25,15 @@ public class PawnPromote {
     private final Image whiteQueen = new Image("engine/assets/Hetman.png");
     private final Image darkQueen = new Image("engine/assets/Hetman_cz.png");
 
-    private Rectangle[] rectangles = new Rectangle[4];
-    private ImageView whiteRookView = new ImageView(whiteRook);
-    private ImageView darkRookView= new ImageView(darkRook);
-    private ImageView whiteBishopView = new ImageView(whiteBishop);
-    private ImageView darkBishopView = new ImageView(darkBishop);
-    private ImageView whiteQueenView = new ImageView(whiteQueen);
-    private ImageView darkQueenView = new ImageView(darkQueen);
-    private ImageView whiteKnightView = new ImageView(whiteKnight);
-    private ImageView darkKnightView = new ImageView(darkKnight);
+    private final Rectangle[] rectangles = new Rectangle[4];
+    private final ImageView whiteRookView = new ImageView(whiteRook);
+    private final ImageView darkRookView= new ImageView(darkRook);
+    private final ImageView whiteBishopView = new ImageView(whiteBishop);
+    private final ImageView darkBishopView = new ImageView(darkBishop);
+    private final ImageView whiteQueenView = new ImageView(whiteQueen);
+    private final ImageView darkQueenView = new ImageView(darkQueen);
+    private final ImageView whiteKnightView = new ImageView(whiteKnight);
+    private final ImageView darkKnightView = new ImageView(darkKnight);
 
     PawnPromote(int cell) {
         this.cell = cell;
@@ -189,9 +189,7 @@ public class PawnPromote {
                         board.getSquareBoard()[y][x].setFigure(new Knight(performer.isWhite(), x, y, imageView));
                         return true;
                     }
-
                 }
-
             }
             return false;
         }

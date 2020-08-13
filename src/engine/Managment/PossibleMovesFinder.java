@@ -1,14 +1,12 @@
 package engine.Managment;
 
 import engine.Board.Board;
-import engine.Board.Square;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class PossibleMovesFinder {
-    private boolean [][] possibleMoves = new boolean[8][8];
-    private MateFinder mateFinder = new MateFinder();
+    private final boolean [][] possibleMoves = new boolean[8][8];
+    private final MateFinder mateFinder = new MateFinder();
     private boolean areAnyPossibleMoves;
 
     public boolean getAreAnyPossibleMoves() {
@@ -38,12 +36,11 @@ public class PossibleMovesFinder {
                     Rectangle shape = board.getSquareBoard()[i][j].getSquare();
                     if((i+j)%2 == 0) {
                         shape.setFill(Color.BLUE);
-                        board.getSquareBoard()[i][j].setSquare(shape);
                     }
                     else{
                         shape.setFill(Color.CYAN);
-                        board.getSquareBoard()[i][j].setSquare(shape);
                     }
+                    board.getSquareBoard()[i][j].setSquare(shape);
                 }
             }
         }
@@ -55,12 +52,11 @@ public class PossibleMovesFinder {
                 Rectangle shape = board.getSquareBoard()[i][j].getSquare();
                 if((i+j)%2 == 0){
                     shape.setFill(Color.STEELBLUE);
-                    board.getSquareBoard()[i][j].setSquare(shape);
                 }
                 else{
                     shape.setFill(Color.PALETURQUOISE);
-                    board.getSquareBoard()[i][j].setSquare(shape);
                 }
+                board.getSquareBoard()[i][j].setSquare(shape);
             }
         }
 

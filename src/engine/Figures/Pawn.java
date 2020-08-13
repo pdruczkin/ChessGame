@@ -1,7 +1,6 @@
 package engine.Figures;
 
 import engine.Board.Board;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Pawn extends Figure{
@@ -36,16 +35,15 @@ public class Pawn extends Figure{
             }
         }
 
-        // 'en passant' attack (baguette xD)
-        if((this.y == 3 || this.y == 4) && (y == 2 || y == 5)){
+        // 'en passant' attack
+        if((this.y == 3 && y == 2) || (this.y == 4 && y == 5)){
             if(this.isWhite){
-                if(board.getSquareBoard()[y+1][x].isOccupied() && board.getSquareBoard()[y+1][x].getFigure().hasJustMovedTwo()) return true;
+                return board.getSquareBoard()[y + 1][x].isOccupied() && board.getSquareBoard()[y + 1][x].getFigure().hasJustMovedTwo();
             }
             else{
-                if(board.getSquareBoard()[y-1][x].isOccupied() && board.getSquareBoard()[y-1][x].getFigure().hasJustMovedTwo()) return true;
+                return board.getSquareBoard()[y - 1][x].isOccupied() && board.getSquareBoard()[y - 1][x].getFigure().hasJustMovedTwo();
             }
         }
-
         return false;
     }
 }
